@@ -46,17 +46,21 @@ class StockTest {
         ).withMessage("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
     }
 
-    @DisplayName("요청한 상품의 수량이 재고 수량보다 작은지 확인한다.")
+    @DisplayName("요청한 상품의 수량이 재고 수량 이하인지 확인한다.")
     @ParameterizedTest
-    @CsvSource(
-            {
-                    "콜라,19,true",
-                    "콜라,21,false"
-            }
-    )
-    void hasEnoughStockTest(String name, int quantity, boolean expected) {
+    @CsvSource({"콜라,19", "탄산수,4"})
+    void hasEnoughStockTest(String name, int quantity) {
         boolean hasEnoughStock = stock.hasEnoughStock(name, quantity);
 
-        assertThat(hasEnoughStock).isEqualTo(expected);
+        assertThat(hasEnoughStock).isTrue();
+    }
+
+    @DisplayName("요청한 상품의 수량이 재고 수량보다 큰지 확인한다.")
+    @ParameterizedTest
+    @CsvSource({"콜라,21", "탄산수,6"})
+    void hasEnoughStockExceptionTest(String name, int quantity) {
+        assertThatIllegalArgumentException().isThrownBy(
+                () -> stock.hasEnoughStock(name, quantity)
+        ).withMessage("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
     }
 }
