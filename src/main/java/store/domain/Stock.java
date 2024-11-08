@@ -10,7 +10,7 @@ public class Stock {
         this.products = products;
     }
 
-    public boolean hasProduct(String name) {
+    public boolean existsByName(String name) {
         if (products.stream().noneMatch(
                 product -> product.isSameName(name)
         )) {

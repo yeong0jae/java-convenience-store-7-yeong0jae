@@ -29,21 +29,21 @@ class StockTest {
 
     @DisplayName("구매자가 가져온 상품명으로 상품이 존재하는지 확인한다.")
     @Test
-    void hasProductTest() {
+    void existsByNameTest() {
         Stock stock = new Stock(products);
 
-        boolean hasProduct = stock.hasProduct("콜라");
+        boolean productExists = stock.existsByName("콜라");
 
-        assertThat(hasProduct).isTrue();
+        assertThat(productExists).isTrue();
     }
 
     @DisplayName("구매자가 가져온 상품이 존재하지 않으면 예외 처리한다.")
     @Test
-    void hasProductExceptionTest() {
+    void existsByNameExceptionTest() {
         Stock stock = new Stock(products);
 
         assertThatIllegalArgumentException().isThrownBy(
-                () -> stock.hasProduct("사이다")
+                () -> stock.existsByName("사이다")
         ).withMessage("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
     }
 }
