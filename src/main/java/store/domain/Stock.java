@@ -12,7 +12,7 @@ public class Stock {
 
     public boolean hasProduct(String name) {
         return products.stream().anyMatch(
-                product -> product.name.equals(name)
+                product -> product.isSameName(name)
         );
     }
 }
