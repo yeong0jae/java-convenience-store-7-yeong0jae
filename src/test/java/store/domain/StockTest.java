@@ -7,6 +7,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class StockTest {
     private List<Product> products;
@@ -45,10 +47,16 @@ class StockTest {
     }
 
     @DisplayName("요청한 상품의 수량이 재고 수량보다 작은지 확인한다.")
-    @Test
-    void hasEnoughStockTest() {
-        boolean hasEnoughStock = stock.hasEnoughStock("콜라", 15);
+    @ParameterizedTest
+    @CsvSource(
+            {
+                    "콜라,19,true",
+                    "콜라,21,false"
+            }
+    )
+    void hasEnoughStockTest(String name, int quantity, boolean expected) {
+        boolean hasEnoughStock = stock.hasEnoughStock(name, quantity);
 
-        assertThat(hasEnoughStock).isTrue();
+        assertThat(hasEnoughStock).isEqualTo(expected);
     }
 }
