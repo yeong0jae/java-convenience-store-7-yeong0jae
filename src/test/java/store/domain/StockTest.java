@@ -1,5 +1,6 @@
 package store.domain;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.util.List;
@@ -39,6 +40,10 @@ class StockTest {
     @DisplayName("구매자가 가져온 상품이 존재하지 않으면 예외 처리한다.")
     @Test
     void hasProductExceptionTest() {
+        Stock stock = new Stock(products);
 
+        assertThatIllegalArgumentException().isThrownBy(
+                () -> stock.hasProduct("사이다")
+        ).withMessage("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
     }
 }

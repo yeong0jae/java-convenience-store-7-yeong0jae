@@ -11,8 +11,11 @@ public class Stock {
     }
 
     public boolean hasProduct(String name) {
-        return products.stream().anyMatch(
+        if (products.stream().noneMatch(
                 product -> product.isSameName(name)
-        );
+        )) {
+            throw new IllegalArgumentException("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
+        }
+        return true;
     }
 }
