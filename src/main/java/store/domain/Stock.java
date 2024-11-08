@@ -18,4 +18,12 @@ public class Stock {
         }
         return true;
     }
+
+    public int findQuantityByName(String name) {
+        return products.stream().filter(
+                product -> product.isSameName(name)
+        ).mapToInt(
+                Product::getQuantity
+        ).sum();
+    }
 }

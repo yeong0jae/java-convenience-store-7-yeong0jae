@@ -17,4 +17,8 @@ public class Product {
     public boolean isSameName(String name) {
         return this.name.equals(name);
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }

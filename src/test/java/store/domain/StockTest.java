@@ -10,40 +10,45 @@ import org.junit.jupiter.api.Test;
 
 class StockTest {
     private List<Product> products;
+    private Stock stock;
 
     @BeforeEach
     void setUp() {
         products = List.of(
                 new Product("콜라", 1000, 10, "탄산2+1"),
-                new Product("콜라", 1000, 10, null)
+                new Product("콜라", 1000, 10, null),
+                new Product("탄산수", 1200, 5, "탄산2+1")
         );
+        stock = new Stock(products);
     }
 
     @DisplayName("상품 목록을 가진다.")
     @Test
     void stockTest() {
-        Stock stock = new Stock(products);
-
         assertThat(stock.products).isEqualTo(products);
     }
 
-    @DisplayName("구매자가 가져온 상품명으로 상품이 존재하는지 확인한다.")
+    @DisplayName("요청한 상품이 존재하는지 확인한다.")
     @Test
     void existsByNameTest() {
-        Stock stock = new Stock(products);
-
         boolean productExists = stock.existsByName("콜라");
 
         assertThat(productExists).isTrue();
     }
 
-    @DisplayName("구매자가 가져온 상품이 존재하지 않으면 예외 처리한다.")
+    @DisplayName("요청한 상품이 존재하지 않으면 예외 처리한다.")
     @Test
     void existsByNameExceptionTest() {
-        Stock stock = new Stock(products);
-
         assertThatIllegalArgumentException().isThrownBy(
                 () -> stock.existsByName("사이다")
         ).withMessage("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
+    }
+
+    @DisplayName("요청한 상품의 수량을 확인한다.")
+    @Test
+    void findQuantityByNameTest() {
+        int quantity = stock.findQuantityByName("콜라");
+
+        assertThat(quantity).isEqualTo(20);
     }
 }
