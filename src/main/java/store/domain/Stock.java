@@ -19,11 +19,15 @@ public class Stock {
         return true;
     }
 
-    public int findQuantityByName(String name) {
+    private int findQuantityByName(String name) {
         return products.stream().filter(
                 product -> product.isSameName(name)
         ).mapToInt(
                 Product::getQuantity
         ).sum();
+    }
+
+    public boolean hasEnoughStock(String name, int quantity) {
+        return quantity <= findQuantityByName(name);
     }
 }

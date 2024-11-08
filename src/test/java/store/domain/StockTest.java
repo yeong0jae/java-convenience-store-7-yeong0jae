@@ -44,11 +44,11 @@ class StockTest {
         ).withMessage("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
     }
 
-    @DisplayName("요청한 상품의 수량을 확인한다.")
+    @DisplayName("요청한 상품의 수량이 재고 수량보다 작은지 확인한다.")
     @Test
-    void findQuantityByNameTest() {
-        int quantity = stock.findQuantityByName("콜라");
+    void hasEnoughStockTest() {
+        boolean hasEnoughStock = stock.hasEnoughStock("콜라", 15);
 
-        assertThat(quantity).isEqualTo(20);
+        assertThat(hasEnoughStock).isTrue();
     }
 }
