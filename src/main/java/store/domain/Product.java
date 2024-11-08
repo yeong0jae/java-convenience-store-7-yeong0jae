@@ -13,4 +13,8 @@ public class Product {
         this.quantity = quantity;
         this.promotion = promotion;
     }
+
+    public boolean isSameName(String name) {
+        return this.name.equals(name);
+    }
 }

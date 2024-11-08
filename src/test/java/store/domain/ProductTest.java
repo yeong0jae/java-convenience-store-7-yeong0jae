@@ -1,5 +1,6 @@
 package store.domain;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,5 +25,20 @@ class ProductTest {
                 () -> assertEquals(10, product.quantity),
                 () -> assertEquals("탄산2+1", product.promotion)
         );
+    }
+
+    @DisplayName("상품명이 같은지 확인한다.")
+    @Test
+    void equalNameTest() {
+        String name = "콜라";
+        int price = 1000;
+        int quantity = 10;
+        String promotion = "탄산2+1";
+
+        Product product = new Product(name, price, quantity, promotion);
+
+        boolean isSameName = product.isSameName("콜라");
+
+        assertThat(isSameName).isTrue();
     }
 }
