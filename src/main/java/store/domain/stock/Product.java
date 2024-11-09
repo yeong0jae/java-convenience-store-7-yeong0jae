@@ -13,6 +13,10 @@ public class Product {
         this.promotion = promotion;
     }
 
+    public boolean promotionIsNotNull() {
+        return promotion != null;
+    }
+
     public boolean matchesName(String name) {
         return this.name.equals(name);
     }

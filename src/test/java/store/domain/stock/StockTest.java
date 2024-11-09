@@ -19,7 +19,8 @@ class StockTest {
         List<Product> products = List.of(
                 new Product("콜라", 1000, 10, "탄산2+1"),
                 new Product("콜라", 1000, 10, null),
-                new Product("탄산수", 1200, 5, "탄산2+1")
+                new Product("탄산수", 1200, 5, "탄산2+1"),
+                new Product("환타", 1500, 5, null)
         );
         stock = new Stock(products);
     }
@@ -47,5 +48,18 @@ class StockTest {
         int price = stock.findPriceByName("콜라");
 
         assertThat(price).isEqualTo(1000);
+    }
+
+    @DisplayName("주문 상품이 프로모션이 있는지 확인한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "콜라,true",
+            "탄산수,true",
+            "환타,false"
+    })
+    void hasPromotionTest(String name, boolean expected) {
+        boolean hasPromotion = stock.hasPromotion(name);
+
+        assertThat(hasPromotion).isEqualTo(expected);
     }
 }

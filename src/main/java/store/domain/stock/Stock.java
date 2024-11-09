@@ -40,4 +40,9 @@ public class Stock {
                 .filter(product -> product.matchesName(name))
                 .toList();
     }
+    
+    public boolean hasPromotion(String name) {
+        return findByName(name).stream()
+                .anyMatch(Product::promotionIsNotNull);
+    }
 }
