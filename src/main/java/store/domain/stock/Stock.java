@@ -14,7 +14,7 @@ public class Stock {
         return findByName(name).stream()
                 .map(Product::getPrice)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요."));
+                .get();
     }
 
     public void existsByName(String name) {
