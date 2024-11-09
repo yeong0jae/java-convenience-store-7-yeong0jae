@@ -10,10 +10,6 @@ public class Stock {
         this.products = products;
     }
 
-    public void existsByNames(List<String> names) {
-        names.forEach(this::existsByName);
-    }
-
     public int findPriceByName(String name) {
         return products.stream()
                 .filter(product -> product.matchesName(name))
@@ -22,7 +18,7 @@ public class Stock {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요."));
     }
 
-    private void existsByName(String name) {
+    public void existsByName(String name) {
         if (products.stream()
                 .noneMatch(product -> product.matchesName(name))) {
             throw new IllegalArgumentException(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요.");

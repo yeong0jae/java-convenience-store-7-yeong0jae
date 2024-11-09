@@ -7,8 +7,8 @@ public class Order {
     private List<OrderItem> orderItems;
 
     public Order(List<OrderItem> orderItems, Stock stock) {
-        existsProduct(orderItems, stock);
-        hasEnoughQuantity(orderItems, stock);
+        validateExists(orderItems, stock);
+        validateEnoughQuantity(orderItems, stock);
         this.orderItems = orderItems;
     }
 
@@ -26,14 +26,11 @@ public class Order {
                 .orElseThrow();
     }
 
-    private void existsProduct(List<OrderItem> orderItems, Stock stock) {
-        stock.existsByNames(orderItems.stream()
-                .map(OrderItem::getName)
-                .toList()
-        );
+    private void validateExists(List<OrderItem> orderItems, Stock stock) {
+        orderItems.forEach(orderItem -> stock.existsByName(orderItem.getName()));
     }
 
-    private void hasEnoughQuantity(List<OrderItem> orderItems, Stock stock) {
+    private void validateEnoughQuantity(List<OrderItem> orderItems, Stock stock) {
         orderItems.forEach(orderItem -> stock.hasEnoughQuantity(
                 orderItem.getName(), orderItem.getCount()
         ));

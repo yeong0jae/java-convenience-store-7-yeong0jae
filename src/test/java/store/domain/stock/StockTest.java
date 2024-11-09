@@ -28,7 +28,7 @@ class StockTest {
     @Test
     void existsByNameExceptionTest() {
         assertThatIllegalArgumentException().isThrownBy(
-                () -> stock.existsByNames(List.of("사이다", "환타"))
+                () -> stock.existsByName("사이다")
         ).withMessage(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요.");
     }
 
