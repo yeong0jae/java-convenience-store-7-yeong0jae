@@ -10,9 +10,9 @@ public class Order {
     }
 
     public List<String> getOrderItemNames() {
-        return orderItems.stream().map(
-                OrderItem::getName
-        ).toList();
+        return orderItems.stream()
+                .map(OrderItem::getName)
+                .toList();
     }
 
     public int findQuantityByName(String name) {
