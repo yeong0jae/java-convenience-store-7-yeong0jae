@@ -17,7 +17,7 @@ public class Order {
 
     public int findQuantityByName(String name) {
         return orderItems.stream()
-                .filter(orderItem -> orderItem.isSameName(name))
+                .filter(orderItem -> orderItem.matchesName(name))
                 .map(OrderItem::getQuantity)
                 .findFirst()
                 .orElseThrow();

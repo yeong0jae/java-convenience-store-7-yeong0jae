@@ -22,7 +22,7 @@ class ProductTest {
     @DisplayName("상품명이 같은지 확인한다.")
     @Test
     void equalNameTest() {
-        boolean isSameName = product.isSameName("콜라");
+        boolean isSameName = product.matchesName("콜라");
 
         assertThat(isSameName).isTrue();
     }

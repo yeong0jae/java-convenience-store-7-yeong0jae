@@ -12,7 +12,7 @@ public class Stock {
 
     public boolean existsByName(String name) {
         if (products.stream().noneMatch(
-                product -> product.isSameName(name)
+                product -> product.matchesName(name)
         )) {
             throw new IllegalArgumentException("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
         }
@@ -28,14 +28,14 @@ public class Stock {
 
     private int findQuantityByName(String name) {
         return products.stream()
-                .filter(product -> product.isSameName(name))
+                .filter(product -> product.matchesName(name))
                 .mapToInt(Product::getQuantity)
                 .sum();
     }
 
     public int findPriceByName(String name) {
         return products.stream()
-                .filter(product -> product.isSameName(name))
+                .filter(product -> product.matchesName(name))
                 .map(Product::getPrice)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요."));

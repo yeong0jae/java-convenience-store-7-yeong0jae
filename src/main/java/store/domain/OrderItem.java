@@ -13,7 +13,7 @@ public class OrderItem {
         return this.quantity * price;
     }
 
-    public boolean isSameName(String name) {
+    public boolean matchesName(String name) {
         return this.name.equals(name);
     }
 
