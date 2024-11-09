@@ -13,7 +13,7 @@ public class Payment {
     }
 
     public int calculateTotalPurchaseAmount() {
-        return order.getOrderItemNames().stream()
+        return order.findOrderItemNames().stream()
                 .mapToInt(this::calculateItemTotalPrice)
                 .sum();
     }

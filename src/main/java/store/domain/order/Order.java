@@ -25,7 +25,7 @@ public class Order {
         ));
     }
 
-    public List<String> getOrderItemNames() {
+    public List<String> findOrderItemNames() {
         return orderItems.stream()
                 .map(OrderItem::getName)
                 .toList();
@@ -38,6 +38,4 @@ public class Order {
                 .findFirst()
                 .orElseThrow();
     }
-
-
 }

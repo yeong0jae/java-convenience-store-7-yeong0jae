@@ -28,8 +28,8 @@ class OrderTest {
 
     @DisplayName("주문 상품 이름 목록을 구한다.")
     @Test
-    void getOrderItemNamesTest() {
-        List<String> orderItemNames = order.getOrderItemNames();
+    void findOrderItemNamesTest() {
+        List<String> orderItemNames = order.findOrderItemNames();
 
         assertThat(orderItemNames).isEqualTo(List.of("콜라", "탄산수"));
     }

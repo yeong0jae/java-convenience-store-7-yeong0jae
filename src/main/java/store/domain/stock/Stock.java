@@ -10,8 +10,8 @@ public class Stock {
         this.products = products;
     }
 
-    public void existsByNames(List<String> orderItemNames) {
-        orderItemNames.forEach(this::existsByName);
+    public void existsByNames(List<String> names) {
+        names.forEach(this::existsByName);
     }
 
     private void existsByName(String name) {
@@ -21,11 +21,10 @@ public class Stock {
         }
     }
 
-    public boolean hasEnoughQuantity(String name, int count) {
+    public void hasEnoughQuantity(String name, int count) {
         if (count > findQuantityByName(name)) {
             throw new IllegalArgumentException(ErrorMessage.PREFIX + "재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
         }
-        return true;
     }
 
     private int findQuantityByName(String name) {
