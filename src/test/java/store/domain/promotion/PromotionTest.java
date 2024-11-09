@@ -14,10 +14,10 @@ class PromotionTest {
         String promotionName = "탄산2+1";
         int buy = 2;
         int get = 1;
-        PromotionType promotionType = PromotionType.fromBuyGet(buy, get);
+        PromotionGroup promotionGroup = PromotionGroup.fromBuyGet(buy, get);
         String startDate = "2024-01-01";
         String endDate = "2024-12-31";
-        Promotion promotion = new Promotion(promotionName, promotionType, startDate, endDate);
+        Promotion promotion = new Promotion(promotionName, promotionGroup, startDate, endDate);
 
         boolean isPromotionActive = promotion.isPromotionActive(LocalDate.now());
 
