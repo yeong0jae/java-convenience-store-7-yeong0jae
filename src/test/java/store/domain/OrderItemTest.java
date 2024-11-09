@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class OrderItemTest {
 
-    @DisplayName("구매는 상품명, 수량을 가진다.")
+    @DisplayName("주문 상품은 상품명, 수량을 가진다.")
     @Test
     void orderItemTest() {
         String name = "콜라";
