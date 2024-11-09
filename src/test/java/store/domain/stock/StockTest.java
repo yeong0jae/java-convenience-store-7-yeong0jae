@@ -35,8 +35,8 @@ class StockTest {
     @DisplayName("주문한 상품의 수량이 재고 수량 이하인지 확인한다.")
     @ParameterizedTest
     @CsvSource({"콜라,19", "탄산수,4"})
-    void hasEnoughStockTest(String name, int quantity) {
-        boolean hasEnoughStock = stock.hasEnoughStock(name, quantity);
+    void hasEnoughQuantityTest(String name, int quantity) {
+        boolean hasEnoughStock = stock.hasEnoughQuantity(name, quantity);
 
         assertThat(hasEnoughStock).isTrue();
     }
@@ -44,9 +44,9 @@ class StockTest {
     @DisplayName("주문한 상품의 수량이 재고 수량보다 큰지 확인한다.")
     @ParameterizedTest
     @CsvSource({"콜라,21", "탄산수,6"})
-    void hasEnoughStockExceptionTest(String name, int quantity) {
+    void hasEnoughQuantityExceptionTest(String name, int quantity) {
         assertThatIllegalArgumentException().isThrownBy(
-                () -> stock.hasEnoughStock(name, quantity)
+                () -> stock.hasEnoughQuantity(name, quantity)
         ).withMessage(ErrorMessage.PREFIX + "재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
     }
 

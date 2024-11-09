@@ -9,12 +9,12 @@ public class Payment {
     private Stock stock;
 
     public Payment(Order order, Stock stock) {
-        validateExistStock(order, stock);
+        existsProduct(order, stock);
         this.order = order;
         this.stock = stock;
     }
 
-    private void validateExistStock(Order order, Stock stock) {
+    private void existsProduct(Order order, Stock stock) {
         List<String> orderItemNames = order.getOrderItemNames();
         stock.existsByNames(orderItemNames);
     }
@@ -26,8 +26,8 @@ public class Payment {
     }
 
     private int calculateItemTotalPrice(String name) {
-        int price = stock.findPriceByName(name);
         int count = order.findCountByName(name);
+        int price = stock.findPriceByName(name);
         return price * count;
     }
 }

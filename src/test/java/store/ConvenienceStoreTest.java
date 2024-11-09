@@ -23,8 +23,9 @@ public class ConvenienceStoreTest {
         // TODO 콘솔 입력
         Order order = new Order(List.of(
                 new OrderItem("콜라", 10),
-                new OrderItem("탄산수", 2)
-        ));
+                new OrderItem("탄산수", 2)),
+                stock
+        );
 
         Payment payment = new Payment(order, stock);
 
