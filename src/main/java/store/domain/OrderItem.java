@@ -9,10 +9,6 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public int calculateTotalPrice(int price) {
-        return this.quantity * price;
-    }
-
     public boolean matchesName(String name) {
         return this.name.equals(name);
     }
