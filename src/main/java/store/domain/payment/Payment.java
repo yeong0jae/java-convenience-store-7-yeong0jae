@@ -22,6 +22,8 @@ public class Payment {
                 return;
             }
             // 프로모션 기간인가?
+//            boolean isPromotionActive = stock.isPromotionActive(orderItemName);
+
             // 프로모션 ...
         });
     }

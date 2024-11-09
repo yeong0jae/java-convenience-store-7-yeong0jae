@@ -10,6 +10,24 @@ public class Stock {
         this.products = products;
     }
 
+    public boolean hasPromotion(String name) {
+        return findByName(name).stream()
+                .anyMatch(Product::promotionIsNotNull);
+    }
+
+//    public boolean isPromotionActive(String name) {
+//        String promotionName = findPromotionByName(name);
+//
+//    }
+
+    private String findPromotionNameByName(String name) {
+        return findByName(name).stream()
+                .filter(Product::promotionIsNotNull)
+                .findFirst()
+                .get()
+                .getPromotionName();
+    }
+
     public int findPriceByName(String name) {
         return findByName(name).stream()
                 .map(Product::getPrice)
@@ -39,10 +57,5 @@ public class Stock {
         return products.stream()
                 .filter(product -> product.matchesName(name))
                 .toList();
-    }
-    
-    public boolean hasPromotion(String name) {
-        return findByName(name).stream()
-                .anyMatch(Product::promotionIsNotNull);
     }
 }

@@ -4,17 +4,17 @@ public class Product {
     private final String name;
     private final int price;
     private int quantity;
-    private String promotion;
+    private String promotionName;
 
-    public Product(String name, int price, int quantity, String promotion) {
+    public Product(String name, int price, int quantity, String promotionName) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.promotion = promotion;
+        this.promotionName = promotionName;
     }
 
     public boolean promotionIsNotNull() {
-        return promotion != null;
+        return promotionName != null;
     }
 
     public boolean matchesName(String name) {
@@ -27,5 +27,9 @@ public class Product {
 
     protected int getPrice() {
         return price;
+    }
+
+    protected String getPromotionName() {
+        return promotionName;
     }
 }
