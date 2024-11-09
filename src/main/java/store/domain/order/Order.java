@@ -7,11 +7,19 @@ public class Order {
     private List<OrderItem> orderItems;
 
     public Order(List<OrderItem> orderItems, Stock stock) {
+        existsProduct(orderItems, stock);
         hasEnoughQuantity(orderItems, stock);
         this.orderItems = orderItems;
     }
 
-    public void hasEnoughQuantity(List<OrderItem> orderItems, Stock stock) {
+    private void existsProduct(List<OrderItem> orderItems, Stock stock) {
+        stock.existsByNames(orderItems.stream()
+                .map(OrderItem::getName)
+                .toList()
+        );
+    }
+
+    private void hasEnoughQuantity(List<OrderItem> orderItems, Stock stock) {
         orderItems.forEach(orderItem -> stock.hasEnoughQuantity(
                 orderItem.getName(), orderItem.getCount()
         ));

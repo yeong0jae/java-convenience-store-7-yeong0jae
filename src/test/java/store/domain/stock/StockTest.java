@@ -32,16 +32,7 @@ class StockTest {
         ).withMessage(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요.");
     }
 
-    @DisplayName("주문한 상품의 수량이 재고 수량 이하인지 확인한다.")
-    @ParameterizedTest
-    @CsvSource({"콜라,19", "탄산수,4"})
-    void hasEnoughQuantityTest(String name, int quantity) {
-        boolean hasEnoughStock = stock.hasEnoughQuantity(name, quantity);
-
-        assertThat(hasEnoughStock).isTrue();
-    }
-
-    @DisplayName("주문한 상품의 수량이 재고 수량보다 큰지 확인한다.")
+    @DisplayName("주문한 상품의 수량이 재고 수량을 초과하면 예외 처리한다.")
     @ParameterizedTest
     @CsvSource({"콜라,21", "탄산수,6"})
     void hasEnoughQuantityExceptionTest(String name, int quantity) {
