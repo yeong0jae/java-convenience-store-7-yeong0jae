@@ -15,10 +15,10 @@ public class Order {
                 .toList();
     }
 
-    public int findQuantityByName(String name) {
+    public int findCountByName(String name) {
         return orderItems.stream()
                 .filter(orderItem -> orderItem.matchesName(name))
-                .map(OrderItem::getQuantity)
+                .map(OrderItem::getCount)
                 .findFirst()
                 .orElseThrow();
     }

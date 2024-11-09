@@ -20,7 +20,7 @@ public class Payment {
 
     private int calculateItemTotalPrice(String name) {
         int price = stock.findPriceByName(name);
-        int orderQuantity = order.findQuantityByName(name);
-        return price * orderQuantity;
+        int count = order.findCountByName(name);
+        return price * count;
     }
 }

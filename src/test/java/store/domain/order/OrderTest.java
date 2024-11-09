@@ -29,8 +29,8 @@ class OrderTest {
 
     @DisplayName("주문 수량을 확인한다.")
     @Test
-    void findQuantityByNameTest() {
-        int orderQuantity = order.findQuantityByName("콜라");
+    void findCountByNameTest() {
+        int orderQuantity = order.findCountByName("콜라");
 
         assertThat(orderQuantity).isEqualTo(10);
     }
