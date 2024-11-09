@@ -33,4 +33,12 @@ public class Stock {
                 Product::getQuantity
         ).sum();
     }
+
+    public int findPriceByName(String name) {
+        return products.stream()
+                .filter(product -> product.isSameName(name))
+                .map(product -> product.price)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요."));
+    }
 }

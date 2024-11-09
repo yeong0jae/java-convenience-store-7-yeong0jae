@@ -30,7 +30,7 @@ class StockTest {
         assertThat(stock.products).isEqualTo(products);
     }
 
-    @DisplayName("요청한 상품이 존재하는지 확인한다.")
+    @DisplayName("주문한 상품이 존재하는지 확인한다.")
     @Test
     void existsByNameTest() {
         boolean productExists = stock.existsByName("콜라");
@@ -38,7 +38,7 @@ class StockTest {
         assertThat(productExists).isTrue();
     }
 
-    @DisplayName("요청한 상품이 존재하지 않으면 예외 처리한다.")
+    @DisplayName("주문한 상품이 존재하지 않으면 예외 처리한다.")
     @Test
     void existsByNameExceptionTest() {
         assertThatIllegalArgumentException().isThrownBy(
@@ -46,7 +46,7 @@ class StockTest {
         ).withMessage("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
     }
 
-    @DisplayName("요청한 상품의 수량이 재고 수량 이하인지 확인한다.")
+    @DisplayName("주문한 상품의 수량이 재고 수량 이하인지 확인한다.")
     @ParameterizedTest
     @CsvSource({"콜라,19", "탄산수,4"})
     void hasEnoughStockTest(String name, int quantity) {
@@ -55,12 +55,20 @@ class StockTest {
         assertThat(hasEnoughStock).isTrue();
     }
 
-    @DisplayName("요청한 상품의 수량이 재고 수량보다 큰지 확인한다.")
+    @DisplayName("주문한 상품의 수량이 재고 수량보다 큰지 확인한다.")
     @ParameterizedTest
     @CsvSource({"콜라,21", "탄산수,6"})
     void hasEnoughStockExceptionTest(String name, int quantity) {
         assertThatIllegalArgumentException().isThrownBy(
                 () -> stock.hasEnoughStock(name, quantity)
         ).withMessage("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
+    }
+
+    @DisplayName("주문한 상품의 가격을 확인한다.")
+    @Test
+    void findPriceByNameTest() {
+        int price = stock.findPriceByName("콜라");
+
+        assertThat(price).isEqualTo(1000);
     }
 }
