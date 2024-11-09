@@ -8,14 +8,14 @@ import store.domain.order.OrderItem;
 import store.domain.payment.Payment;
 import store.domain.stock.Product;
 import store.domain.stock.Stock;
-import store.file.FileInput;
+import store.file.ProductsInput;
 
 public class ConvenienceStoreTest {
 
     @DisplayName("프로그램 전체 테스트를 진행한다.")
     @Test
     void convenienceStoreTest() {
-        List<Product> products = FileInput.readProducts();
+        List<Product> products = ProductsInput.readProducts();
         Stock stock = new Stock(products);
 
         // TODO 콘솔 입력

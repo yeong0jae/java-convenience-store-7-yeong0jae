@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import store.domain.stock.Product;
 
-public class FileInput {
+public class ProductsInput {
     private static final String FILE_PATH = "src/main/resources/products.md";
 
     public static List<Product> readProducts() {
