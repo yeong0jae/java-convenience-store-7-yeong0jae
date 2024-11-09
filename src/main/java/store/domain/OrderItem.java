@@ -8,4 +8,8 @@ public class OrderItem {
         this.name = name;
         this.quantity = quantity;
     }
+
+    public int calculateTotalPrice(int price) {
+        return this.quantity * price;
+    }
 }
