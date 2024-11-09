@@ -29,7 +29,6 @@ public class ConvenienceStoreTest {
         Payment payment = new Payment(order, stock);
 
         int pay = payment.calculateTotalPurchaseAmount();
-
     }
 }
 

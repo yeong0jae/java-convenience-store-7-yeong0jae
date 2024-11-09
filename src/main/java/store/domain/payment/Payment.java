@@ -9,12 +9,12 @@ public class Payment {
     private Stock stock;
 
     public Payment(Order order, Stock stock) {
-        this.stock = stock;
-        validateExistStock(order);
+        validateExistStock(order, stock);
         this.order = order;
+        this.stock = stock;
     }
 
-    private void validateExistStock(Order order) {
+    private void validateExistStock(Order order, Stock stock) {
         List<String> orderItemNames = order.getOrderItemNames();
         stock.existsByNames(orderItemNames);
     }
