@@ -1,7 +1,6 @@
 package store.domain.stock;
 
 public class Product {
-
     private final String name;
     private final int price;
     private int quantity;

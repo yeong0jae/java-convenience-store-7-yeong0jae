@@ -1,15 +1,22 @@
 package store.domain.payment;
 
+import java.util.List;
 import store.domain.order.Order;
 import store.domain.stock.Stock;
 
 public class Payment {
-    private final Order order;
+    private Order order;
     private Stock stock;
 
     public Payment(Order order, Stock stock) {
-        this.order = order;
         this.stock = stock;
+        validateExistStock(order);
+        this.order = order;
+    }
+
+    private void validateExistStock(Order order) {
+        List<String> orderItemNames = order.getOrderItemNames();
+        stock.existsByNames(orderItemNames);
     }
 
     public int calculateTotalPurchaseAmount() {

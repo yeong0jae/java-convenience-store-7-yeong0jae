@@ -24,19 +24,11 @@ class StockTest {
         stock = new Stock(products);
     }
 
-    @DisplayName("주문한 상품이 존재하는지 확인한다.")
-    @Test
-    void existsByNameTest() {
-        boolean productExists = stock.existsByName("콜라");
-
-        assertThat(productExists).isTrue();
-    }
-
     @DisplayName("주문한 상품이 존재하지 않으면 예외 처리한다.")
     @Test
     void existsByNameExceptionTest() {
         assertThatIllegalArgumentException().isThrownBy(
-                () -> stock.existsByName("사이다")
+                () -> stock.existsByNames(List.of("사이다", "환타"))
         ).withMessage(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요.");
     }
 

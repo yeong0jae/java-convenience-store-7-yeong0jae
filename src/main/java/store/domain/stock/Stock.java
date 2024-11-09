@@ -4,20 +4,21 @@ import java.util.List;
 import store.util.ErrorMessage;
 
 public class Stock {
-
     private List<Product> products;
 
     public Stock(List<Product> products) {
         this.products = products;
     }
 
-    public boolean existsByName(String name) {
-        if (products.stream().noneMatch(
-                product -> product.matchesName(name)
-        )) {
+    public void existsByNames(List<String> orderItemNames) {
+        orderItemNames.forEach(this::existsByName);
+    }
+
+    private void existsByName(String name) {
+        if (products.stream()
+                .noneMatch(product -> product.matchesName(name))) {
             throw new IllegalArgumentException(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요.");
         }
-        return true;
     }
 
     public boolean hasEnoughStock(String name, int quantity) {
@@ -41,4 +42,6 @@ public class Stock {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요."));
     }
+
+
 }
