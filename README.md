@@ -109,8 +109,8 @@
 ---
 
 - 입력
-    - 파일 입출력을 통해 상품 목록 src/main/resources/products.md을 불러온다.
-    - 파일 입출력을 통해 상품 목록 src/main/resources/promotions.md을 불러온다.
+    - [x] 파일 입출력을 통해 상품 목록 src/main/resources/products.md을 불러온다.
+    - 파일 입출력을 통해 프로모션 목록 src/main/resources/promotions.md을 불러온다.
     - 두 파일 모두 내용의 형식을 유지한다면 값은 수정할 수 있다.
     - 구매할 상품과 수량을 입력 받는다.
         - 상품명, 수량은 하이픈(-)으로 구분한다.

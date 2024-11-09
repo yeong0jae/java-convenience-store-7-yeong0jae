@@ -8,17 +8,15 @@ import store.domain.order.OrderItem;
 import store.domain.payment.Payment;
 import store.domain.stock.Product;
 import store.domain.stock.Stock;
+import store.file.FileInput;
 
 public class ConvenienceStoreTest {
 
     @DisplayName("프로그램 전체 테스트를 진행한다.")
     @Test
     void convenienceStoreTest() {
-        // TODO 파일 입력
-        Stock stock = new Stock(List.of(
-                new Product("콜라", 1000, 10, "탄산2+1"),
-                new Product("탄산수", 1500, 5, null)
-        ));
+        List<Product> products = FileInput.readProducts();
+        Stock stock = new Stock(products);
 
         // TODO 콘솔 입력
         Order order = new Order(List.of(
