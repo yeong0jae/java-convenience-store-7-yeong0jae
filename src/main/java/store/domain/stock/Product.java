@@ -18,11 +18,11 @@ public class Product {
         return this.name.equals(name);
     }
 
-    public int getQuantity() {
+    protected int getQuantity() {
         return quantity;
     }
 
-    public int getPrice() {
+    protected int getPrice() {
         return price;
     }
 }

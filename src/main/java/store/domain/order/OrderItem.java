@@ -13,11 +13,11 @@ public class OrderItem {
         return this.name.equals(name);
     }
 
-    public String getName() {
+    protected String getName() {
         return name;
     }
 
-    public int getQuantity() {
+    protected int getQuantity() {
         return quantity;
     }
 }
