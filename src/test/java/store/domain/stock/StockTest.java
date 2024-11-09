@@ -1,4 +1,4 @@
-package store.domain;
+package store.domain.stock;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

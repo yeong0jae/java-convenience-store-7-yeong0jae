@@ -1,10 +1,14 @@
-package store.domain;
+package store.domain.payment;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import store.domain.order.Order;
+import store.domain.order.OrderItem;
+import store.domain.stock.Product;
+import store.domain.stock.Stock;
 
 class PaymentTest {
 
