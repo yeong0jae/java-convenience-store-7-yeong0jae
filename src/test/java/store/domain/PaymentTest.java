@@ -17,9 +17,9 @@ class PaymentTest {
         Stock stock = new Stock(List.of(
                 new Product("콜라", 1000, 20, "탄산2+1"),
                 new Product("탄산수", 1000, 5, "탄산2+1")));
-        Payment payment = new Payment();
+        Payment payment = new Payment(order, stock);
 
-        int totalPurchaseAmount = payment.calculateTotalPurchaseAmount(order, stock);
+        int totalPurchaseAmount = payment.calculateTotalPurchaseAmount();
 
         assertThat(totalPurchaseAmount).isEqualTo(13000);
     }
