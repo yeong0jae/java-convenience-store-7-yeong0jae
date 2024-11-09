@@ -10,13 +10,14 @@ public class Payment {
     }
 
     public int calculateTotalPurchaseAmount() {
-        return order.getOrderItems().stream()
-                .mapToInt(this::calculateOrderItemPrice)
+        return order.getOrderItemNames().stream()
+                .mapToInt(this::calculateItemTotalPrice)
                 .sum();
     }
 
-    private int calculateOrderItemPrice(OrderItem orderItem) {
-        int price = stock.findPriceByName(orderItem.getName());
-        return orderItem.calculateTotalPrice(price);
+    private int calculateItemTotalPrice(String name) {
+        int price = stock.findPriceByName(name);
+        int orderQuantity = order.findQuantityByName(name);
+        return price * orderQuantity;
     }
 }

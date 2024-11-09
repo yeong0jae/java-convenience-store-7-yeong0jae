@@ -8,16 +8,31 @@ import org.junit.jupiter.api.Test;
 
 class OrderTest {
 
-    @DisplayName("주문은 주문 상품 목록을 가진다.")
+    @DisplayName("주문 상품 이름 목록을 구한다.")
     @Test
-    void orderTest() {
+    void getOrderItemNamesTest() {
         List<OrderItem> orderItems = List.of(
                 new OrderItem("콜라", 10),
                 new OrderItem("탄산수", 3)
         );
-
         Order order = new Order(orderItems);
 
-        assertThat(order.getOrderItems()).isEqualTo(orderItems);
+        List<String> orderItemNames = order.getOrderItemNames();
+
+        assertThat(orderItemNames).isEqualTo(List.of("콜라", "탄산수"));
+    }
+
+    @DisplayName("주문 수량을 확인한다.")
+    @Test
+    void findQuantityByNameTest() {
+        List<OrderItem> orderItems = List.of(
+                new OrderItem("콜라", 10),
+                new OrderItem("탄산수", 3)
+        );
+        Order order = new Order(orderItems);
+
+        int orderQuantity = order.findQuantityByName("콜라");
+
+        assertThat(orderQuantity).isEqualTo(10);
     }
 }

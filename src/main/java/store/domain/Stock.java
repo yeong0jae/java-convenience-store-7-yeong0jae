@@ -27,11 +27,10 @@ public class Stock {
     }
 
     private int findQuantityByName(String name) {
-        return products.stream().filter(
-                product -> product.isSameName(name)
-        ).mapToInt(
-                Product::getQuantity
-        ).sum();
+        return products.stream()
+                .filter(product -> product.isSameName(name))
+                .mapToInt(Product::getQuantity)
+                .sum();
     }
 
     public int findPriceByName(String name) {

@@ -1,6 +1,5 @@
 package store.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
@@ -10,7 +9,17 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return new ArrayList<>(orderItems);
+    public List<String> getOrderItemNames() {
+        return orderItems.stream().map(
+                OrderItem::getName
+        ).toList();
+    }
+
+    public int findQuantityByName(String name) {
+        return orderItems.stream()
+                .filter(orderItem -> orderItem.isSameName(name))
+                .map(OrderItem::getQuantity)
+                .findFirst()
+                .orElseThrow();
     }
 }
