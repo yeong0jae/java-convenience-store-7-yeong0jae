@@ -11,16 +11,14 @@ public class Stock {
     }
 
     public int findPriceByName(String name) {
-        return products.stream()
-                .filter(product -> product.matchesName(name))
+        return findByName(name).stream()
                 .map(Product::getPrice)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요."));
     }
 
     public void existsByName(String name) {
-        if (products.stream()
-                .noneMatch(product -> product.matchesName(name))) {
+        if (findByName(name).isEmpty()) {
             throw new IllegalArgumentException(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요.");
         }
     }
@@ -32,9 +30,14 @@ public class Stock {
     }
 
     private int findQuantityByName(String name) {
-        return products.stream()
-                .filter(product -> product.matchesName(name))
+        return findByName(name).stream()
                 .mapToInt(Product::getQuantity)
                 .sum();
+    }
+
+    private List<Product> findByName(String name) {
+        return products.stream()
+                .filter(product -> product.matchesName(name))
+                .toList();
     }
 }
