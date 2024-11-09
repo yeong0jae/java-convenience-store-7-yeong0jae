@@ -14,6 +14,14 @@ public class Stock {
         names.forEach(this::existsByName);
     }
 
+    public int findPriceByName(String name) {
+        return products.stream()
+                .filter(product -> product.matchesName(name))
+                .map(Product::getPrice)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요."));
+    }
+
     private void existsByName(String name) {
         if (products.stream()
                 .noneMatch(product -> product.matchesName(name))) {
@@ -32,13 +40,5 @@ public class Stock {
                 .filter(product -> product.matchesName(name))
                 .mapToInt(Product::getQuantity)
                 .sum();
-    }
-
-    public int findPriceByName(String name) {
-        return products.stream()
-                .filter(product -> product.matchesName(name))
-                .map(Product::getPrice)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요."));
     }
 }

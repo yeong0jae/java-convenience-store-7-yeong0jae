@@ -12,19 +12,6 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    private void existsProduct(List<OrderItem> orderItems, Stock stock) {
-        stock.existsByNames(orderItems.stream()
-                .map(OrderItem::getName)
-                .toList()
-        );
-    }
-
-    private void hasEnoughQuantity(List<OrderItem> orderItems, Stock stock) {
-        orderItems.forEach(orderItem -> stock.hasEnoughQuantity(
-                orderItem.getName(), orderItem.getCount()
-        ));
-    }
-
     public List<String> findOrderItemNames() {
         return orderItems.stream()
                 .map(OrderItem::getName)
@@ -37,5 +24,18 @@ public class Order {
                 .map(OrderItem::getCount)
                 .findFirst()
                 .orElseThrow();
+    }
+
+    private void existsProduct(List<OrderItem> orderItems, Stock stock) {
+        stock.existsByNames(orderItems.stream()
+                .map(OrderItem::getName)
+                .toList()
+        );
+    }
+
+    private void hasEnoughQuantity(List<OrderItem> orderItems, Stock stock) {
+        orderItems.forEach(orderItem -> stock.hasEnoughQuantity(
+                orderItem.getName(), orderItem.getCount()
+        ));
     }
 }
