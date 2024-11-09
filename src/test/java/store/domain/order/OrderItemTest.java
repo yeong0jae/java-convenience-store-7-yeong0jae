@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import store.util.ErrorMessage;
 
 class OrderItemTest {
 
@@ -16,6 +17,6 @@ class OrderItemTest {
 
         assertThatIllegalArgumentException().isThrownBy(
                 () -> new OrderItem(name, count)
-        ).withMessage("[ERROR] 1개 이상의 상품만 구매할 수 있습니다.");
+        ).withMessage(ErrorMessage.PREFIX + "1개 이상의 상품만 구매할 수 있습니다.");
     }
 }

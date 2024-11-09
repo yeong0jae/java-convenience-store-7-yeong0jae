@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import store.util.ErrorMessage;
 
 class StockTest {
     private Stock stock;
@@ -36,7 +37,7 @@ class StockTest {
     void existsByNameExceptionTest() {
         assertThatIllegalArgumentException().isThrownBy(
                 () -> stock.existsByName("사이다")
-        ).withMessage("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요.");
+        ).withMessage(ErrorMessage.PREFIX + "존재하지 않는 상품입니다. 다시 입력해 주세요.");
     }
 
     @DisplayName("주문한 상품의 수량이 재고 수량 이하인지 확인한다.")
@@ -54,7 +55,7 @@ class StockTest {
     void hasEnoughStockExceptionTest(String name, int quantity) {
         assertThatIllegalArgumentException().isThrownBy(
                 () -> stock.hasEnoughStock(name, quantity)
-        ).withMessage("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
+        ).withMessage(ErrorMessage.PREFIX + "재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
     }
 
     @DisplayName("주문한 상품의 가격을 확인한다.")
