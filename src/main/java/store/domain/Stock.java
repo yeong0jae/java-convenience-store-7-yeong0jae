@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Stock {
 
-    List<Product> products;
+    private List<Product> products;
 
     public Stock(List<Product> products) {
         this.products = products;
@@ -37,7 +37,7 @@ public class Stock {
     public int findPriceByName(String name) {
         return products.stream()
                 .filter(product -> product.isSameName(name))
-                .map(product -> product.price)
+                .map(Product::getPrice)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 상품입니다. 다시 입력해 주세요."));
     }

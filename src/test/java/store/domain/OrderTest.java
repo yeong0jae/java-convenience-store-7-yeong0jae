@@ -18,6 +18,6 @@ class OrderTest {
 
         Order order = new Order(orderItems);
 
-        assertThat(order.orderItems).isEqualTo(orderItems);
+        assertThat(order.getOrderItems()).isEqualTo(orderItems);
     }
 }

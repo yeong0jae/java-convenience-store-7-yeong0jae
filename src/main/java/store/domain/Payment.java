@@ -1,7 +1,7 @@
 package store.domain;
 
 public class Payment {
-    private Order order;
+    private final Order order;
     private Stock stock;
 
     public Payment(Order order, Stock stock) {
@@ -10,13 +10,13 @@ public class Payment {
     }
 
     public int calculateTotalPurchaseAmount() {
-        return order.orderItems.stream()
-                .mapToInt(this::calculatePurchaseAmount)
+        return order.getOrderItems().stream()
+                .mapToInt(this::calculateOrderItemPrice)
                 .sum();
     }
 
-    private int calculatePurchaseAmount(OrderItem orderItem) {
-        int price = stock.findPriceByName(orderItem.name);
+    private int calculateOrderItemPrice(OrderItem orderItem) {
+        int price = stock.findPriceByName(orderItem.getName());
         return orderItem.calculateTotalPrice(price);
     }
 }

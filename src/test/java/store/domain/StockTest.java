@@ -11,23 +11,16 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class StockTest {
-    private List<Product> products;
     private Stock stock;
 
     @BeforeEach
     void setUp() {
-        products = List.of(
+        List<Product> products = List.of(
                 new Product("콜라", 1000, 10, "탄산2+1"),
                 new Product("콜라", 1000, 10, null),
                 new Product("탄산수", 1200, 5, "탄산2+1")
         );
         stock = new Stock(products);
-    }
-
-    @DisplayName("상품 목록을 가진다.")
-    @Test
-    void stockTest() {
-        assertThat(stock.products).isEqualTo(products);
     }
 
     @DisplayName("주문한 상품이 존재하는지 확인한다.")
