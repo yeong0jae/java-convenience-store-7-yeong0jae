@@ -43,6 +43,7 @@ public class ConvenienceStore {
             String name = orderItem.getName();
             int count = orderItem.getCount();
             int promotionQuantity = stock.findQuantityOfPromotionByName(name);
+            int price = stock.findPriceByName(name);
             String promotionName = stock.findPromotionNameByName(name);
             PromotionType promotionType = promotionCatalog.findPromotionTypeByName(promotionName);
 
@@ -53,7 +54,28 @@ public class ConvenienceStore {
                 return;
             }
 
+            // 모든 상품에 프로모션 적용이 가능하면
+            if (count <= promotionQuantity) {
+                int get = promotionType.get;
+                int buy = promotionType.buy;
 
+                int restCount = count % (get + buy);
+                if (restCount == buy) {
+                    if (inputView.readAdditionalPromotion(name, get)) {
+                        orderItem.addCount(get);
+                    }
+                }
+                int promotionApplyCount = orderItem.getCount() / (get + buy);
+
+                receipt.addGivenProduct(name, promotionApplyCount);
+                receipt.addPromotionDiscount(promotionApplyCount * price);
+                receipt.addMembershipDiscount(0);
+
+                return;
+            }
+
+            // 일부 상품에 프로모션 적용이 가능하면
+            
         });
 
         return receipt;

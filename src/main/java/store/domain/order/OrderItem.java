@@ -23,8 +23,8 @@ public class OrderItem {
         }
     }
 
-    public void addCount() {
-        count += 1;
+    public void addCount(int get) {
+        count += get;
     }
 
     public String getName() {
