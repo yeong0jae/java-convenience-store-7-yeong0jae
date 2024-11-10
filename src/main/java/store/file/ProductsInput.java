@@ -16,12 +16,27 @@ public class ProductsInput {
         List<String> lines = readLines();
         List<Product> products = new ArrayList<>();
 
-        for (String line : lines) {
-            Product product = parseProduct(line);
+        for (int i = 0; i < lines.size(); i++) {
+            Product product = parseProduct(lines.get(i));
             products.add(product);
+
+            // 현재 상품이 프로모션이 있고, 다음 라인이 다른 상품이면 기본 상품 추가
+            if (product.getPromotionName() != null && (i + 1 >= lines.size() || !isSameProductNameAndPrice(
+                    lines.get(i + 1), product))) {
+                products.add(new Product(product.getName(), product.getPrice(), 0, null));
+            }
         }
+
         return products;
     }
+
+    private static boolean isSameProductNameAndPrice(String line, Product product) {
+        List<String> rawProduct = Arrays.stream(line.split(",")).toList();
+        String name = rawProduct.get(0);
+        int price = Integer.parseInt(rawProduct.get(1));
+        return name.equals(product.getName()) && price == product.getPrice();
+    }
+
 
     private static List<String> readLines() {
         List<String> lines = new ArrayList<>();
