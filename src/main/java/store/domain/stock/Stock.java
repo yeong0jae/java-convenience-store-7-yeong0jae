@@ -65,4 +65,16 @@ public class Stock {
                 .filter(product -> product.matchesName(name))
                 .toList();
     }
+    
+    public void decreasePromotionQuantity(String name, int count) {
+        findByName(name).stream()
+                .filter(Product::promotionIsNotNull)
+                .forEach(product -> product.decreaseQuantity(count));
+    }
+
+    public void decreaseQuantity(String name, int count) {
+        findByName(name).stream()
+                .filter(product -> !product.promotionIsNotNull())
+                .forEach(product -> product.decreaseQuantity(count));
+    }
 }
