@@ -42,15 +42,18 @@ public class ConvenienceStore {
         order.getOrderItems().forEach(orderItem -> {
             String name = orderItem.getName();
             int count = orderItem.getCount();
-
-            int promotionQuantity = stock.findQuantityOfPromotionByName(name);
             int price = stock.findPriceByName(name);
 
+            // 프로모션이 없으면
+            if (!stock.hasPromotion(name)) {
+                receipt.addMembershipDiscount(count * price);
+                return;
+            }
+            int promotionQuantity = stock.findQuantityOfPromotionByName(name);
             String promotionName = stock.findPromotionNameByName(name);
 
-            // 프로모션이 없거나, 프로모션 기간이 아니거나, 프로모션 상품이 0개인 경우
-            if (!stock.hasPromotion(name) ||
-                    !promotionCatalog.isPromotionActive(promotionName, LocalDate.now()) ||
+            // 프로모션 기간이 아니거나, 프로모션 상품이 0개인 경우
+            if (!promotionCatalog.isPromotionActive(promotionName, LocalDate.now()) ||
                     promotionQuantity == 0) {
                 receipt.addMembershipDiscount(count * price);
                 return;

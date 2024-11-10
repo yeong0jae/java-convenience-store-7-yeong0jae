@@ -1,12 +1,13 @@
 package store.domain.receipt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Receipt {
     private int promotionDiscount;
     private int membershipDiscount;
-    private List<String> givenProductNames;
-    private List<Integer> givenProductCounts;
+    private List<String> givenProductNames = new ArrayList<>();
+    private List<Integer> givenProductCounts = new ArrayList<>();
 
     public void addPromotionDiscount(int amount) {
         promotionDiscount += amount;
