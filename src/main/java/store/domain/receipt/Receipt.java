@@ -15,6 +15,9 @@ public class Receipt {
 
     public void addMembershipDiscount(int amount) {
         membershipDiscount += amount;
+        if (membershipDiscount >= 8000) {
+            membershipDiscount = 8000;
+        }
     }
 
     public void addGivenProduct(String givenProductName, int givenProductCount) {
