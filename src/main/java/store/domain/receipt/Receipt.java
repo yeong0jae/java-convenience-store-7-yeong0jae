@@ -12,4 +12,20 @@ public class Receipt {
         this.membershipDiscount = membershipDiscount;
         this.finalAmount = finalAmount;
     }
+
+    public int getTotalPurchaseAmount() {
+        return totalPurchaseAmount;
+    }
+
+    public int getPromotionDiscount() {
+        return promotionDiscount;
+    }
+
+    public int getMembershipDiscount() {
+        return membershipDiscount;
+    }
+
+    public int getFinalAmount() {
+        return finalAmount;
+    }
 }
