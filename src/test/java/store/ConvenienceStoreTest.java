@@ -20,6 +20,7 @@ public class ConvenienceStoreTest {
     void convenienceStoreTest() {
         List<Product> products = ProductsInput.readProducts();
         Stock stock = new Stock(products);
+
         List<Promotion> promotions = PromotionsInput.readPromotions();
         PromotionCatalog promotionCatalog = new PromotionCatalog(promotions);
 
@@ -32,7 +33,7 @@ public class ConvenienceStoreTest {
 
         Payment payment = new Payment(order, stock, promotionCatalog);
 
-        int pay = payment.calculateTotalPurchaseAmount();
+        
     }
 }
 
