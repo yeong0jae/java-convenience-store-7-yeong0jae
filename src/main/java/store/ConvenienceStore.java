@@ -42,40 +42,53 @@ public class ConvenienceStore {
         order.getOrderItems().forEach(orderItem -> {
             String name = orderItem.getName();
             int count = orderItem.getCount();
+
             int promotionQuantity = stock.findQuantityOfPromotionByName(name);
             int price = stock.findPriceByName(name);
+
             String promotionName = stock.findPromotionNameByName(name);
-            PromotionType promotionType = promotionCatalog.findPromotionTypeByName(promotionName);
 
             // 프로모션이 없거나, 프로모션 기간이 아니거나, 프로모션 상품이 0개인 경우
             if (!stock.hasPromotion(name) ||
                     !promotionCatalog.isPromotionActive(promotionName, LocalDate.now()) ||
                     promotionQuantity == 0) {
+                receipt.addMembershipDiscount(count * price);
                 return;
             }
 
+            PromotionType promotionType = promotionCatalog.findPromotionTypeByName(promotionName);
+            int buy = promotionType.buy;
+            int get = promotionType.get;
+
             // 모든 상품에 프로모션 적용이 가능하면
             if (count <= promotionQuantity) {
-                int get = promotionType.get;
-                int buy = promotionType.buy;
-
-                int restCount = count % (get + buy);
+                int restCount = count % (buy + get);
                 if (restCount == buy) {
                     if (inputView.readAdditionalPromotion(name, get)) {
                         orderItem.addCount(get);
                     }
                 }
-                int promotionApplyCount = orderItem.getCount() / (get + buy);
+                int givenProductCount = orderItem.getCount() / (buy + get);
 
-                receipt.addGivenProduct(name, promotionApplyCount);
-                receipt.addPromotionDiscount(promotionApplyCount * price);
+                receipt.addGivenProduct(name, givenProductCount);
+                receipt.addPromotionDiscount(givenProductCount * price);
                 receipt.addMembershipDiscount(0);
 
                 return;
             }
 
             // 일부 상품에 프로모션 적용이 가능하면
-            
+            int givenProductCount = promotionQuantity / (buy + get);
+            int promotionApplyCount = givenProductCount * (buy + get);
+            int membershipApplyCount = count - promotionApplyCount;
+            if (!inputView.readNoApplicablePromotion(name, membershipApplyCount)) {
+                System.out.println("구매 안할래요");
+                return;
+            }
+
+            receipt.addGivenProduct(name, givenProductCount);
+            receipt.addPromotionDiscount(givenProductCount * price);
+            receipt.addMembershipDiscount(membershipApplyCount * price);
         });
 
         return receipt;
