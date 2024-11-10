@@ -4,15 +4,17 @@ import store.domain.stock.Stock;
 import store.file.ProductsInput;
 import store.view.InputView;
 import store.view.OutputView;
+import store.view.parser.InputParser;
 
 public class Application {
     public static void main(String[] args) {
-        InputView inputView = new InputView();
+        InputParser inputParser = new InputParser();
+        InputView inputView = new InputView(inputParser);
+
         OutputView outputView = new OutputView();
         Stock stock = new Stock(ProductsInput.readProducts());
 
-        ConvenienceStore convenienceStore =
-                new ConvenienceStore(inputView, outputView, stock);
+        ConvenienceStore convenienceStore = new ConvenienceStore(inputView, outputView, stock);
         convenienceStore.open();
     }
 }

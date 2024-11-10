@@ -3,33 +3,24 @@ package store.view;
 import camp.nextstep.edu.missionutils.Console;
 import java.util.Arrays;
 import java.util.List;
+import store.view.parser.InputParser;
 
 public class InputView {
+    private final InputParser inputParser;
+
+    public InputView(InputParser inputParser) {
+        this.inputParser = inputParser;
+    }
 
     public List<List<String>> readOrderItems() {
         System.out.println("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])");
         String input = Console.readLine();
 
         return Arrays.stream(input.split(","))
-                .map(this::parseOrderItem)
+                .map(inputParser::parseOrderItem)
                 .toList();
     }
-
-    private List<String> parseOrderItem(String rawOrderItem) {
-        String replacedInput = rawOrderItem.replace("[", "").replace("]", "");
-        List<String> parts = Arrays.asList(replacedInput.split("-"));
-
-        if (parts.size() != 2 || parts.get(0).isEmpty() || !isNumeric(parts.get(1))) {
-            throw new IllegalArgumentException("[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
-        }
-
-        return parts;
-    }
-
-    private boolean isNumeric(String str) {
-        return str.chars().allMatch(Character::isDigit);
-    }
-
+    
     public boolean readAdditionalPromotion(String name, int count) {
         System.out.printf("\n현재 %s은(는) %d개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)%n", name, count);
         return isYes();
