@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import store.domain.promotion.Promotion;
-import store.domain.promotion.PromotionGroup;
+import store.domain.promotion.PromotionType;
 
 public class PromotionsInput {
     private static final String FILE_PATH = "src/main/resources/promotions.md";
@@ -44,10 +44,10 @@ public class PromotionsInput {
         String name = rawPromotion.get(0);
         int buy = Integer.parseInt(rawPromotion.get(1));
         int get = Integer.parseInt(rawPromotion.get(2));
-        PromotionGroup promotionGroup = PromotionGroup.fromBuyGet(buy, get);
+        PromotionType promotionType = PromotionType.fromBuyGet(buy, get);
         LocalDate startDate = LocalDate.parse(rawPromotion.get(3));
         LocalDate endDate = LocalDate.parse(rawPromotion.get(4));
 
-        return new Promotion(name, promotionGroup, startDate, endDate);
+        return new Promotion(name, promotionType, startDate, endDate);
     }
 }
