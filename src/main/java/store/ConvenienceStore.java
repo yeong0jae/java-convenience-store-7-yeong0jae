@@ -1,12 +1,14 @@
 package store;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Supplier;
 import store.domain.order.Order;
 import store.domain.order.OrderItem;
-import store.domain.payment.Payment;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.PromotionCatalog;
+import store.domain.promotion.PromotionType;
+import store.domain.receipt.Receipt;
 import store.domain.stock.Product;
 import store.domain.stock.Stock;
 import store.file.ProductsInput;
@@ -24,18 +26,37 @@ public class ConvenienceStore {
     }
 
     public void open() {
-        // 재고 준비
         Stock stock = prepareStock();
         outputView.printStock(stock.getProducts());
 
-        // 프로모션 준비
         PromotionCatalog promotionCatalog = preparePromotion();
 
-        // 주문 생성
         Order order = retryUntilValid(() -> receiveOrder(stock));
 
-        // 결제
-        Payment payment = new Payment(order, stock, promotionCatalog);
+        Receipt receipt = pay(order, stock, promotionCatalog);
+    }
+
+    private Receipt pay(Order order, Stock stock, PromotionCatalog promotionCatalog) {
+        Receipt receipt = new Receipt();
+
+        order.getOrderItems().forEach(orderItem -> {
+            String name = orderItem.getName();
+            int count = orderItem.getCount();
+            int promotionQuantity = stock.findQuantityOfPromotionByName(name);
+            String promotionName = stock.findPromotionNameByName(name);
+            PromotionType promotionType = promotionCatalog.findPromotionTypeByName(promotionName);
+
+            // 프로모션이 없거나, 프로모션 기간이 아니거나, 프로모션 상품이 0개인 경우
+            if (!stock.hasPromotion(name) ||
+                    !promotionCatalog.isPromotionActive(promotionName, LocalDate.now()) ||
+                    promotionQuantity == 0) {
+                return;
+            }
+
+
+        });
+
+        return receipt;
     }
 
     private Order receiveOrder(Stock stock) {

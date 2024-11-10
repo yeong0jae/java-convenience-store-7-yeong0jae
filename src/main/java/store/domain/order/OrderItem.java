@@ -23,6 +23,10 @@ public class OrderItem {
         }
     }
 
+    public void addCount() {
+        count += 1;
+    }
+
     public String getName() {
         return name;
     }
