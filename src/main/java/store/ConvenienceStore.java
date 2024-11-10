@@ -34,15 +34,11 @@ public class ConvenienceStore {
 
         Receipt receipt = pay(order, stock, promotionCatalog);
 
-        if (!inputView.readMembershipDiscountAgree()) {
-            receipt.disagreeMembershipDiscount();
-        }
+        applyMembership(receipt);
 
         outputView.printReceipt(receipt);
 
-        if (inputView.readPurchaseAnother()) {
-            open();
-        }
+        shoppingContinue();
     }
 
     private Receipt pay(Order order, Stock stock, PromotionCatalog promotionCatalog) {
@@ -65,8 +61,7 @@ public class ConvenienceStore {
             String promotionName = stock.findPromotionNameByName(name);
 
             // 프로모션 기간이 아니거나, 프로모션 상품이 0개인 경우
-            if (!promotionCatalog.isPromotionActive(promotionName, LocalDate.now()) ||
-                    promotionQuantity == 0) {
+            if (!promotionCatalog.isPromotionActive(promotionName, LocalDate.now()) || promotionQuantity == 0) {
                 receipt.addMembershipDiscount(count * price);
                 stock.decreaseQuantity(name, count);
                 return;
@@ -114,6 +109,12 @@ public class ConvenienceStore {
         return receipt;
     }
 
+    private void applyMembership(Receipt receipt) {
+        if (!inputView.readMembershipDiscountAgree()) {
+            receipt.disagreeMembershipDiscount();
+        }
+    }
+
     private Order receiveOrder(Stock stock) {
         List<OrderItem> orderItems = inputView.readOrderItems().stream().map(
                 rawOrderItem -> new OrderItem(rawOrderItem.getFirst(), rawOrderItem.get(1))
@@ -124,6 +125,12 @@ public class ConvenienceStore {
     private PromotionCatalog preparePromotion() {
         List<Promotion> promotions = PromotionsInput.readPromotions();
         return new PromotionCatalog(promotions);
+    }
+
+    private void shoppingContinue() {
+        if (inputView.readPurchaseAnother()) {
+            open();
+        }
     }
 
     private <T> T retryUntilValid(Supplier<T> supplier) {
