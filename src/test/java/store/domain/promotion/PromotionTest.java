@@ -15,8 +15,8 @@ class PromotionTest {
         int buy = 2;
         int get = 1;
         PromotionGroup promotionGroup = PromotionGroup.fromBuyGet(buy, get);
-        String startDate = "2024-01-01";
-        String endDate = "2024-12-31";
+        LocalDate startDate = LocalDate.parse("2024-01-01");
+        LocalDate endDate = LocalDate.parse("2024-12-31");
         Promotion promotion = new Promotion(promotionName, promotionGroup, startDate, endDate);
 
         boolean isPromotionActive = promotion.isPromotionActive(LocalDate.now());

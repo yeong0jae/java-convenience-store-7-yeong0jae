@@ -16,7 +16,7 @@ public class Stock {
     }
 
 //    public boolean isPromotionActive(String name) {
-//        String promotionName = findPromotionByName(name);
+//        String promotionName = findPromotionNameByName(name);
 //
 //    }
 

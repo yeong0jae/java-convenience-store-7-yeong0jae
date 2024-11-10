@@ -6,9 +6,12 @@ import org.junit.jupiter.api.Test;
 import store.domain.order.Order;
 import store.domain.order.OrderItem;
 import store.domain.payment.Payment;
+import store.domain.promotion.Promotion;
+import store.domain.promotion.PromotionCatalog;
 import store.domain.stock.Product;
 import store.domain.stock.Stock;
 import store.file.ProductsInput;
+import store.file.PromotionsInput;
 
 public class ConvenienceStoreTest {
 
@@ -17,6 +20,8 @@ public class ConvenienceStoreTest {
     void convenienceStoreTest() {
         List<Product> products = ProductsInput.readProducts();
         Stock stock = new Stock(products);
+        List<Promotion> promotions = PromotionsInput.readPromotions();
+        PromotionCatalog promotionCatalog = new PromotionCatalog(promotions);
 
         // TODO 콘솔 입력
         Order order = new Order(List.of(

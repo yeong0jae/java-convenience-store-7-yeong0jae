@@ -8,11 +8,11 @@ public class Promotion {
     private final LocalDate startDate;
     private final LocalDate endDate;
 
-    public Promotion(String promotionName, PromotionGroup promotionGroup, String startDate, String endDate) {
+    public Promotion(String promotionName, PromotionGroup promotionGroup, LocalDate startDate, LocalDate endDate) {
         this.promotionName = promotionName;
         this.promotionGroup = promotionGroup;
-        this.startDate = LocalDate.parse(startDate);
-        this.endDate = LocalDate.parse(endDate);
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public boolean isPromotionActive(LocalDate date) {
