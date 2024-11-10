@@ -10,14 +10,29 @@ public class InputView {
         System.out.println("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])");
         String input = Console.readLine();
 
-        return Arrays.stream(input.split(","))
-                .map(this::parseOrderItem)
-                .toList();
+        try {
+            return Arrays.stream(input.split(","))
+                    .map(this::parseOrderItem)
+                    .toList();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return readOrderItems();
+        }
     }
 
     private List<String> parseOrderItem(String rawOrderItem) {
         String replacedInput = rawOrderItem.replace("[", "").replace("]", "");
-        return Arrays.asList(replacedInput.split("-"));
+        List<String> parts = Arrays.asList(replacedInput.split("-"));
+
+        if (parts.size() != 2 || parts.get(0).isEmpty() || !isNumeric(parts.get(1))) {
+            throw new IllegalArgumentException("[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
+        }
+
+        return parts;
+    }
+
+    private boolean isNumeric(String str) {
+        return str.chars().allMatch(Character::isDigit);
     }
 
     public boolean readAdditionalPromotion(String name, int count) {
