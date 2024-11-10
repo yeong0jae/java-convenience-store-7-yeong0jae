@@ -34,6 +34,8 @@ public class ConvenienceStore {
         Order order = retryUntilValid(() -> receiveOrder(stock));
 
         Receipt receipt = pay(order, stock, promotionCatalog);
+
+
     }
 
     private Receipt pay(Order order, Stock stock, PromotionCatalog promotionCatalog) {
@@ -43,6 +45,8 @@ public class ConvenienceStore {
             String name = orderItem.getName();
             int count = orderItem.getCount();
             int price = stock.findPriceByName(name);
+
+            receipt.addTotalPurchaseAmount(count * price);
 
             // 프로모션이 없으면
             if (!stock.hasPromotion(name)) {
