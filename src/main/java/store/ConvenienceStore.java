@@ -1,6 +1,7 @@
 package store;
 
 import java.util.List;
+import java.util.function.Supplier;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.PromotionCatalog;
 import store.domain.stock.Product;
@@ -21,12 +22,28 @@ public class ConvenienceStore {
     }
 
     public void open() {
+        Stock stock = prepareStock();
+        PromotionCatalog promotionCatalog = preparePromotion();
+
+    }
+
+    private Stock prepareStock() {
         List<Product> products = ProductsInput.readProducts();
-        Stock stock = new Stock(products);
+        return new Stock(products);
+    }
 
+    private PromotionCatalog preparePromotion() {
         List<Promotion> promotions = PromotionsInput.readPromotions();
-        PromotionCatalog promotionCatalog = new PromotionCatalog(promotions);
+        return new PromotionCatalog(promotions);
+    }
 
-        
+    private <T> T retryUntilValid(Supplier<T> supplier) {
+        while (true) {
+            try {
+                return supplier.get();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }
