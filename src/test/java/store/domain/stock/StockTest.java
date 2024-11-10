@@ -62,4 +62,12 @@ class StockTest {
 
         assertThat(hasPromotion).isEqualTo(expected);
     }
+
+    @DisplayName("주문 상품의 프로모션 명을 확인한다.")
+    @Test
+    void findPromotionNameByNameTest() {
+        String promotionName = stock.findPromotionNameByName("콜라");
+
+        assertThat(promotionName).isEqualTo("탄산2+1");
+    }
 }
