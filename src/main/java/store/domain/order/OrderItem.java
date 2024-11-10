@@ -6,10 +6,11 @@ public class OrderItem {
     private final String name;
     private int count;
 
-    public OrderItem(String name, int count) {
-        validatePositiveCount(count);
+    public OrderItem(String name, String count) {
+        int rawCount = Integer.parseInt(count);
+        validatePositiveCount(rawCount);
         this.name = name;
-        this.count = count;
+        this.count = rawCount;
     }
 
     public boolean matchesName(String name) {

@@ -2,6 +2,8 @@ package store;
 
 import java.util.List;
 import java.util.function.Supplier;
+import store.domain.order.Order;
+import store.domain.order.OrderItem;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.PromotionCatalog;
 import store.domain.stock.Product;
@@ -24,9 +26,21 @@ public class ConvenienceStore {
     public void open() {
         Stock stock = prepareStock();
         outputView.printStock(stock.getProducts());
+
         PromotionCatalog promotionCatalog = preparePromotion();
 
+        Order order = retryUntilValid(() -> {
+            return receiveOrder(stock);
+        });
     }
+
+    private Order receiveOrder(Stock stock) {
+        List<OrderItem> orderItems = inputView.readOrderItems().stream().map(
+                rawOrderItem -> new OrderItem(rawOrderItem.get(0), rawOrderItem.get(1))
+        ).toList();
+        return new Order(orderItems, stock);
+    }
+
 
     private Stock prepareStock() {
         List<Product> products = ProductsInput.readProducts();

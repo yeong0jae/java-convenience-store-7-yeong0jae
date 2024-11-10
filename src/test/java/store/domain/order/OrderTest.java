@@ -15,8 +15,8 @@ class OrderTest {
     @BeforeEach
     void setUp() {
         List<OrderItem> orderItems = List.of(
-                new OrderItem("콜라", 10),
-                new OrderItem("탄산수", 3)
+                new OrderItem("콜라", "10"),
+                new OrderItem("탄산수", "3")
         );
         List<Product> products = List.of(
                 new Product("콜라", 1000, 10, "탄산2+1"),

@@ -11,8 +11,8 @@ class OrderItemTest {
 
     @DisplayName("상품 수량이 0 이하이면 예외 처리한다.")
     @ParameterizedTest
-    @ValueSource(ints = {-1, 0})
-    void validatePositiveCountTest(int count) {
+    @ValueSource(strings = {"-1", "0"})
+    void validatePositiveCountTest(String count) {
         String name = "콜라";
 
         assertThatIllegalArgumentException().isThrownBy(

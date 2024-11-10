@@ -18,6 +18,7 @@ public class OutputView {
             System.out.println(
                     "- " + product.getName() + " " + formattedPrice + " " + quantityText + " " + promotionName);
         });
+        System.out.println();
     }
 }
 

@@ -23,8 +23,8 @@ class PaymentTest {
                 new Product("콜라", 1000, 20, "탄산2+1"),
                 new Product("탄산수", 1000, 5, "탄산2+1")));
         Order order = new Order(List.of(
-                new OrderItem("콜라", 10),
-                new OrderItem("탄산수", 3)), stock);
+                new OrderItem("콜라", "10"),
+                new OrderItem("탄산수", "3")), stock);
         PromotionCatalog promotionCatalog = new PromotionCatalog(List.of(
                 new Promotion("탄산2+1", PromotionType.fromBuyGet(2, 1),
                         LocalDate.parse("2024-01-01"), LocalDate.parse("2024-12-31"))
