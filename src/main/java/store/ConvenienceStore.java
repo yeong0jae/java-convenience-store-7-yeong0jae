@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.function.Supplier;
 import store.domain.order.Order;
 import store.domain.order.OrderItem;
-import store.domain.payment.Payment;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.PromotionCatalog;
 import store.domain.stock.Product;
@@ -15,7 +14,6 @@ import store.view.InputView;
 import store.view.OutputView;
 
 public class ConvenienceStore {
-
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -32,13 +30,11 @@ public class ConvenienceStore {
 
         Order order = retryUntilValid(() -> receiveOrder(stock));
 
-        pay(order, stock, promotionCatalog);
+        pay(order, promotionCatalog);
     }
 
-    private void pay(Order order, Stock stock, PromotionCatalog promotionCatalog) {
-        Payment payment = new Payment(order, stock, promotionCatalog);
+    private void pay(Order order, PromotionCatalog promotionCatalog) {
 
-        List<Integer> totalGets = payment.calculateTotalGets();
     }
 
     private Order receiveOrder(Stock stock) {
@@ -47,7 +43,6 @@ public class ConvenienceStore {
         ).toList();
         return new Order(orderItems, stock);
     }
-
 
     private Stock prepareStock() {
         List<Product> products = ProductsInput.readProducts();

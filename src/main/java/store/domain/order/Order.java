@@ -14,6 +14,10 @@ public class Order {
         this.stock = stock;
     }
 
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
     public List<String> findOrderItemNames() {
         return orderItems.stream()
                 .map(OrderItem::getName)
