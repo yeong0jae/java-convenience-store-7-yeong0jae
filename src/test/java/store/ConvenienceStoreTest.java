@@ -30,7 +30,7 @@ public class ConvenienceStoreTest {
                 stock
         );
 
-        Payment payment = new Payment(order, stock);
+        Payment payment = new Payment(order, stock, promotionCatalog);
 
         int pay = payment.calculateTotalPurchaseAmount();
     }

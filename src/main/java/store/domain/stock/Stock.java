@@ -15,12 +15,7 @@ public class Stock {
                 .anyMatch(Product::promotionIsNotNull);
     }
 
-//    public boolean isPromotionActive(String name) {
-//        String promotionName = findPromotionNameByName(name);
-//
-//    }
-
-    private String findPromotionNameByName(String name) {
+    public String findPromotionNameByName(String name) {
         return findByName(name).stream()
                 .filter(Product::promotionIsNotNull)
                 .findFirst()

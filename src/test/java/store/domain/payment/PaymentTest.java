@@ -2,11 +2,15 @@ package store.domain.payment;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.domain.order.Order;
 import store.domain.order.OrderItem;
+import store.domain.promotion.Promotion;
+import store.domain.promotion.PromotionCatalog;
+import store.domain.promotion.PromotionGroup;
 import store.domain.stock.Product;
 import store.domain.stock.Stock;
 
@@ -21,8 +25,12 @@ class PaymentTest {
         Order order = new Order(List.of(
                 new OrderItem("콜라", 10),
                 new OrderItem("탄산수", 3)), stock);
+        PromotionCatalog promotionCatalog = new PromotionCatalog(List.of(
+                new Promotion("탄산2+1", PromotionGroup.fromBuyGet(2, 1),
+                        LocalDate.parse("2024-01-01"), LocalDate.parse("2024-12-31"))
+        ));
 
-        Payment payment = new Payment(order, stock);
+        Payment payment = new Payment(order, stock, promotionCatalog);
 
         int totalPurchaseAmount = payment.calculateTotalPurchaseAmount();
 
