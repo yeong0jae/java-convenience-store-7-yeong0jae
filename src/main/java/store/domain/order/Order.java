@@ -5,13 +5,11 @@ import store.domain.stock.Stock;
 
 public class Order {
     private List<OrderItem> orderItems;
-    private Stock stock;
 
     public Order(List<OrderItem> orderItems, Stock stock) {
         validateExists(orderItems, stock);
         validateEnoughQuantity(orderItems, stock);
         this.orderItems = orderItems;
-        this.stock = stock;
     }
 
     public List<OrderItem> getOrderItems() {
@@ -30,18 +28,6 @@ public class Order {
                 .map(OrderItem::getCount)
                 .findFirst()
                 .orElseThrow();
-    }
-
-    public int calculateTotalPurchaseAmount() {
-        return orderItems.stream()
-                .mapToInt(orderItem -> calculateItemTotalPrice(orderItem.getName()))
-                .sum();
-    }
-
-    private int calculateItemTotalPrice(String name) {
-        int count = findCountByName(name);
-        int price = stock.findPriceByName(name);
-        return price * count;
     }
 
     private void validateExists(List<OrderItem> orderItems, Stock stock) {

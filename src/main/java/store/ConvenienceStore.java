@@ -23,23 +23,23 @@ public class ConvenienceStore {
     }
 
     public void open() {
+        // 재고 준비
         Stock stock = prepareStock();
         outputView.printStock(stock.getProducts());
 
+        // 프로모션 준비
         PromotionCatalog promotionCatalog = preparePromotion();
 
+        // 주문 생성
         Order order = retryUntilValid(() -> receiveOrder(stock));
 
-        pay(order, promotionCatalog);
-    }
-
-    private void pay(Order order, PromotionCatalog promotionCatalog) {
+        // 결제
 
     }
 
     private Order receiveOrder(Stock stock) {
         List<OrderItem> orderItems = inputView.readOrderItems().stream().map(
-                rawOrderItem -> new OrderItem(rawOrderItem.get(0), rawOrderItem.get(1))
+                rawOrderItem -> new OrderItem(rawOrderItem.getFirst(), rawOrderItem.get(1))
         ).toList();
         return new Order(orderItems, stock);
     }

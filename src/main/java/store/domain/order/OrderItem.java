@@ -23,11 +23,11 @@ public class OrderItem {
         }
     }
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
-    protected int getCount() {
+    public int getCount() {
         return count;
     }
 }
