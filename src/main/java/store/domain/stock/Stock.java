@@ -52,6 +52,13 @@ public class Stock {
                 .mapToInt(Product::getQuantity)
                 .sum();
     }
+    
+    public int findQuantityOfNormalByName(String name) {
+        return findByName(name).stream()
+                .filter(product -> !product.promotionIsNotNull())
+                .findFirst()
+                .get().getQuantity();
+    }
 
     public int findQuantityOfPromotionByName(String name) {
         return findByName(name).stream()
@@ -65,7 +72,7 @@ public class Stock {
                 .filter(product -> product.matchesName(name))
                 .toList();
     }
-    
+
     public void decreasePromotionQuantity(String name, int count) {
         findByName(name).stream()
                 .filter(Product::promotionIsNotNull)
