@@ -22,4 +22,8 @@ public class Promotion {
     public String getName() {
         return name;
     }
+
+    protected PromotionType getPromotionType() {
+        return promotionType;
+    }
 }

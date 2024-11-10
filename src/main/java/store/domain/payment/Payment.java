@@ -3,6 +3,7 @@ package store.domain.payment;
 import java.time.LocalDate;
 import store.domain.order.Order;
 import store.domain.promotion.PromotionCatalog;
+import store.domain.promotion.PromotionType;
 import store.domain.stock.Stock;
 
 public class Payment {
@@ -38,7 +39,14 @@ public class Payment {
         int count = order.findCountByName(orderItemName);
         // 프로모션 상품의 개수
         int quantityOfPromotion = stock.findQuantityOfPromotionByName(orderItemName);
-        
+
+        // 주문 상품의 프로모션 타입
+        String promotionName = stock.findPromotionNameByName(orderItemName);
+        PromotionType promotionType = promotionCatalog.findPromotionTypeByName(promotionName);
+
+        if (count >= quantityOfPromotion) {
+            
+        }
     }
 
     public int calculateTotalPurchaseAmount() {
