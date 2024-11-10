@@ -40,6 +40,10 @@ public class ConvenienceStore {
         }
 
         outputView.printReceipt(receipt);
+
+        if (inputView.readPurchaseAnother()) {
+            open();
+        }
     }
 
     private Receipt pay(Order order, Stock stock, PromotionCatalog promotionCatalog) {
