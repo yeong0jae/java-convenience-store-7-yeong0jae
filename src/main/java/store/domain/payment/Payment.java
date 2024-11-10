@@ -18,12 +18,6 @@ public class Payment {
         this.promotionCatalog = promotionCatalog;
     }
 
-    public int calculateTotalPurchaseAmount() {
-        return order.findOrderItemNames().stream()
-                .mapToInt(this::calculateItemTotalPrice)
-                .sum();
-    }
-
     public List<Integer> calculateTotalGets() {
         return order.findOrderItemNames().stream()
                 .map(orderItemName -> {
@@ -68,11 +62,5 @@ public class Payment {
         if (!promotionCatalog.isPromotionActive(promotionName, LocalDate.now())) {
             return;
         }
-    }
-
-    private int calculateItemTotalPrice(String name) {
-        int count = order.findCountByName(name);
-        int price = stock.findPriceByName(name);
-        return price * count;
     }
 }

@@ -41,4 +41,12 @@ class OrderTest {
 
         assertThat(orderQuantity).isEqualTo(10);
     }
+
+    @DisplayName("총구매액을 계산한다.")
+    @Test
+    void calculateTotalPurchaseAmountTest() {
+        int totalPurchaseAmount = order.calculateTotalPurchaseAmount();
+
+        assertThat(totalPurchaseAmount).isEqualTo(13600);
+    }
 }
