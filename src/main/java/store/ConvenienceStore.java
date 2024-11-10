@@ -37,9 +37,9 @@ public class ConvenienceStore {
 
     private void pay(Order order, Stock stock, PromotionCatalog promotionCatalog) {
         Payment payment = new Payment(order, stock, promotionCatalog);
-        
-    }
 
+        List<Integer> totalGets = payment.calculateTotalGets();
+    }
 
     private Order receiveOrder(Stock stock) {
         List<OrderItem> orderItems = inputView.readOrderItems().stream().map(
