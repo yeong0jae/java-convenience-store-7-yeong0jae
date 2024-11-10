@@ -35,7 +35,10 @@ public class ConvenienceStore {
 
         Receipt receipt = pay(order, stock, promotionCatalog);
 
-
+        if (!inputView.readMembershipDiscountAgree()) {
+            receipt.disagreeMembershipDiscount();
+        }
+        
     }
 
     private Receipt pay(Order order, Stock stock, PromotionCatalog promotionCatalog) {

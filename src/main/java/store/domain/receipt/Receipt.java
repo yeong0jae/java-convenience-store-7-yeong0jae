@@ -10,6 +10,10 @@ public class Receipt {
     private List<String> givenProductNames = new ArrayList<>();
     private List<Integer> givenProductCounts = new ArrayList<>();
 
+    public void disagreeMembershipDiscount() {
+        membershipDiscount = 0;
+    }
+
     public void addTotalPurchaseAmount(int amount) {
         totalPurchaseAmount += amount;
     }

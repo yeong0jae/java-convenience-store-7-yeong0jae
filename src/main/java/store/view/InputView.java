@@ -30,7 +30,7 @@ public class InputView {
         return isYes();
     }
 
-    public boolean readMembershipDiscount() {
+    public boolean readMembershipDiscountAgree() {
         System.out.println("멤버십 할인을 받으시겠습니까? (Y/N)");
         return isYes();
     }
