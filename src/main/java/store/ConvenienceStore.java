@@ -19,14 +19,15 @@ import store.view.OutputView;
 public class ConvenienceStore {
     private final InputView inputView;
     private final OutputView outputView;
+    private Stock stock;
 
-    public ConvenienceStore(InputView inputView, OutputView outputView) {
+    public ConvenienceStore(InputView inputView, OutputView outputView, Stock stock) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.stock = stock;
     }
 
     public void open() {
-        Stock stock = prepareStock();
         outputView.printStock(stock.getProducts());
 
         PromotionCatalog promotionCatalog = preparePromotion();
@@ -59,6 +60,7 @@ public class ConvenienceStore {
             // 프로모션이 없으면
             if (!stock.hasPromotion(name)) {
                 receipt.addMembershipDiscount(count * price);
+                stock.decreaseQuantity(name, count);
                 return;
             }
             int promotionQuantity = stock.findQuantityOfPromotionByName(name);
@@ -68,6 +70,7 @@ public class ConvenienceStore {
             if (!promotionCatalog.isPromotionActive(promotionName, LocalDate.now()) ||
                     promotionQuantity == 0) {
                 receipt.addMembershipDiscount(count * price);
+                stock.decreaseQuantity(name, count);
                 return;
             }
 
@@ -88,6 +91,7 @@ public class ConvenienceStore {
                 receipt.addGivenProduct(name, givenProductCount);
                 receipt.addPromotionDiscount(givenProductCount * price);
                 receipt.addMembershipDiscount(0);
+                stock.decreasePromotionQuantity(name, givenProductCount * (buy + get));
 
                 return;
             }
@@ -103,6 +107,9 @@ public class ConvenienceStore {
             receipt.addGivenProduct(name, givenProductCount);
             receipt.addPromotionDiscount(givenProductCount * price);
             receipt.addMembershipDiscount(membershipApplyCount * price);
+            stock.decreasePromotionQuantity(name, promotionApplyCount);
+            stock.decreaseQuantity(name, count);
+
         });
 
         return receipt;

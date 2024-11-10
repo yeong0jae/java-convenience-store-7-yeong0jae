@@ -36,4 +36,8 @@ public class Product {
     public String getPromotionName() {
         return promotionName;
     }
+
+    public void decreaseQuantity(int count) {
+        quantity -= count;
+    }
 }
