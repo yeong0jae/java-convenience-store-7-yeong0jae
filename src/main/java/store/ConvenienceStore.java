@@ -9,9 +9,7 @@ import store.domain.promotion.Promotion;
 import store.domain.promotion.PromotionCatalog;
 import store.domain.promotion.PromotionType;
 import store.domain.receipt.Receipt;
-import store.domain.stock.Product;
 import store.domain.stock.Stock;
-import store.file.ProductsInput;
 import store.file.PromotionsInput;
 import store.view.InputView;
 import store.view.OutputView;
@@ -90,8 +88,9 @@ public class ConvenienceStore {
 
                 receipt.addGivenProduct(name, givenProductCount);
                 receipt.addPromotionDiscount(givenProductCount * price);
-                receipt.addMembershipDiscount(0);
+                receipt.addMembershipDiscount(restCount * price);
                 stock.decreasePromotionQuantity(name, givenProductCount * (buy + get));
+                stock.decreaseQuantity(name, restCount);
 
                 return;
             }
@@ -120,11 +119,6 @@ public class ConvenienceStore {
                 rawOrderItem -> new OrderItem(rawOrderItem.getFirst(), rawOrderItem.get(1))
         ).toList();
         return new Order(orderItems, stock);
-    }
-
-    private Stock prepareStock() {
-        List<Product> products = ProductsInput.readProducts();
-        return new Stock(products);
     }
 
     private PromotionCatalog preparePromotion() {
