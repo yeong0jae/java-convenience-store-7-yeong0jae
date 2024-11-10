@@ -13,6 +13,10 @@ public class Product {
         this.promotionName = promotionName;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public boolean promotionIsNotNull() {
         return promotionName != null;
     }
@@ -21,15 +25,15 @@ public class Product {
         return this.name.equals(name);
     }
 
-    protected int getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    protected int getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    protected String getPromotionName() {
+    public String getPromotionName() {
         return promotionName;
     }
 }

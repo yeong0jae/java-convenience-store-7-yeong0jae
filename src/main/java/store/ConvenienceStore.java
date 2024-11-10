@@ -23,6 +23,7 @@ public class ConvenienceStore {
 
     public void open() {
         Stock stock = prepareStock();
+        outputView.printStock(stock.getProducts());
         PromotionCatalog promotionCatalog = preparePromotion();
 
     }

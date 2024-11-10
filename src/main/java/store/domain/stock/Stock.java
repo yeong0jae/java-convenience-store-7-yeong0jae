@@ -1,5 +1,6 @@
 package store.domain.stock;
 
+import java.util.ArrayList;
 import java.util.List;
 import store.util.ErrorMessage;
 
@@ -40,6 +41,10 @@ public class Stock {
         if (count > findQuantityByName(name)) {
             throw new IllegalArgumentException(ErrorMessage.PREFIX + "재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
         }
+    }
+
+    public List<Product> getProducts() {
+        return new ArrayList<>(products);
     }
 
     private int findQuantityByName(String name) {
