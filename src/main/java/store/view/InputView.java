@@ -10,14 +10,9 @@ public class InputView {
         System.out.println("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])");
         String input = Console.readLine();
 
-        try {
-            return Arrays.stream(input.split(","))
-                    .map(this::parseOrderItem)
-                    .toList();
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return readOrderItems();
-        }
+        return Arrays.stream(input.split(","))
+                .map(this::parseOrderItem)
+                .toList();
     }
 
     private List<String> parseOrderItem(String rawOrderItem) {
