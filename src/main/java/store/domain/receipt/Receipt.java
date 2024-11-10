@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Receipt {
-    private int totalPurchaseAmount;
+    private List<PurchaseHistory> purchaseHistories = new ArrayList<>();
     private int promotionDiscount;
     private int membershipDiscount;
     private List<String> givenProductNames = new ArrayList<>();
     private List<Integer> givenProductCounts = new ArrayList<>();
 
-    public void disagreeMembershipDiscount() {
-        membershipDiscount = 0;
+    public void addPurchaseHistory(String name, int count, int price) {
+        purchaseHistories.add(new PurchaseHistory(name, count, price));
     }
 
-    public void addTotalPurchaseAmount(int amount) {
-        totalPurchaseAmount += amount;
+    public List<PurchaseHistory> getPurchaseHistories() {
+        return purchaseHistories;
+    }
+
+    public void disagreeMembershipDiscount() {
+        membershipDiscount = 0;
     }
 
     public void addPromotionDiscount(int amount) {

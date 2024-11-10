@@ -2,7 +2,7 @@ package store.view;
 
 import java.text.NumberFormat;
 import java.util.List;
-import store.domain.order.OrderItem;
+import store.domain.receipt.Receipt;
 import store.domain.stock.Product;
 
 public class OutputView {
@@ -22,14 +22,14 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printReceipt(List<OrderItem> orderItems) {
+    public void printReceipt(Receipt receipt) {
         System.out.println("===========W 편의점=============");
         System.out.println("상품명\t\t수량\t금액");
-        orderItems.stream().forEach(
-                orderItem -> {
-                    System.out.println(orderItem.getName() + "\t\t3 \t" + "3,000");
-                }
-        );
-
+        receipt.getPurchaseHistories().forEach(purchaseHistory -> {
+            System.out.println(purchaseHistory.getName() + "\t\t" + purchaseHistory.getCount() + " \t"
+                    + purchaseHistory.getPrice());
+        });
+        System.out.println("===========증\t정==============");
+        
     }
 }

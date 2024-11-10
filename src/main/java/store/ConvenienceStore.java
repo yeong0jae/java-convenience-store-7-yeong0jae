@@ -38,7 +38,8 @@ public class ConvenienceStore {
         if (!inputView.readMembershipDiscountAgree()) {
             receipt.disagreeMembershipDiscount();
         }
-        
+
+        outputView.printReceipt(receipt);
     }
 
     private Receipt pay(Order order, Stock stock, PromotionCatalog promotionCatalog) {
@@ -49,7 +50,7 @@ public class ConvenienceStore {
             int count = orderItem.getCount();
             int price = stock.findPriceByName(name);
 
-            receipt.addTotalPurchaseAmount(count * price);
+            receipt.addPurchaseHistory(name, count, price);
 
             // 프로모션이 없으면
             if (!stock.hasPromotion(name)) {
