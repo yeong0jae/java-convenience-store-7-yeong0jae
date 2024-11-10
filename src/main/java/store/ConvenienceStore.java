@@ -97,8 +97,7 @@ public class ConvenienceStore {
             int promotionApplyCount = givenProductCount * (buy + get);
             int membershipApplyCount = count - promotionApplyCount;
             if (!inputView.readNoApplicablePromotion(name, membershipApplyCount)) {
-                System.out.println("구매 안할래요");
-                return;
+                open();
             }
 
             receipt.addGivenProduct(name, givenProductCount);
