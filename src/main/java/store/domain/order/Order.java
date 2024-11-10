@@ -16,12 +16,6 @@ public class Order {
         return orderItems;
     }
 
-    public List<String> findOrderItemNames() {
-        return orderItems.stream()
-                .map(OrderItem::getName)
-                .toList();
-    }
-
     public int findCountByName(String name) {
         return orderItems.stream()
                 .filter(orderItem -> orderItem.matchesName(name))

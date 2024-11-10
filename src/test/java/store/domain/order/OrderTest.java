@@ -26,14 +26,6 @@ class OrderTest {
         order = new Order(orderItems, new Stock(products));
     }
 
-    @DisplayName("주문 상품 이름 목록을 구한다.")
-    @Test
-    void findOrderItemNamesTest() {
-        List<String> orderItemNames = order.findOrderItemNames();
-
-        assertThat(orderItemNames).isEqualTo(List.of("콜라", "탄산수"));
-    }
-
     @DisplayName("주문 수량을 확인한다.")
     @Test
     void findCountByNameTest() {
