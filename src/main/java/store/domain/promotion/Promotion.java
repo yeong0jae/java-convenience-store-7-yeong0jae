@@ -15,8 +15,8 @@ public class Promotion {
         this.endDate = endDate;
     }
 
-    protected boolean isPromotionActive(LocalDate date) {
-        return date.isAfter(startDate) && date.isBefore(endDate);
+    protected boolean isPromotionActive(LocalDate currentDate) {
+        return !currentDate.isBefore(startDate) && !currentDate.isAfter(endDate);
     }
 
     public String getName() {

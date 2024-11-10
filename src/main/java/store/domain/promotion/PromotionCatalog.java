@@ -15,8 +15,7 @@ public class PromotionCatalog {
     }
 
     public boolean isPromotionActive(String promotionName, LocalDate currentDate) {
-        Promotion promotion = findByName(promotionName);
-        return promotion.isPromotionActive(currentDate);
+        return findByName(promotionName).isPromotionActive(currentDate);
     }
 
     private Promotion findByName(String promotionName) {
