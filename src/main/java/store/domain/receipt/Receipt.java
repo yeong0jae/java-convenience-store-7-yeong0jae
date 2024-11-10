@@ -5,10 +5,9 @@ import java.util.List;
 
 public class Receipt {
     private List<PurchaseHistory> purchaseHistories = new ArrayList<>();
+    private List<GivenProduct> givenProducts = new ArrayList<>();
     private int promotionDiscount;
     private int membershipDiscount;
-    private List<String> givenProductNames = new ArrayList<>();
-    private List<Integer> givenProductCounts = new ArrayList<>();
 
     public void addPurchaseHistory(String name, int count, int price) {
         purchaseHistories.add(new PurchaseHistory(name, count, price));
@@ -34,8 +33,7 @@ public class Receipt {
     }
 
     public void addGivenProduct(String givenProductName, int givenProductCount) {
-        givenProductNames.add(givenProductName);
-        givenProductCounts.add(givenProductCount);
+        givenProducts.add(new GivenProduct(givenProductName, givenProductCount));
     }
 
     public int getPromotionDiscount() {
