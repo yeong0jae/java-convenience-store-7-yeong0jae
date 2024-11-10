@@ -11,7 +11,7 @@ public class OutputView {
         System.out.println("현재 보유하고 있는 상품입니다.\n");
 
         products.forEach(product -> {
-            String formattedPrice = NumberFormat.getInstance().format(product.getPrice()) + "원";
+            String formattedPrice = numberFormat(product.getPrice()) + "원";
             String promotionName = product.getPromotionName() != null ? product.getPromotionName() : "";
             String quantityText = product.getQuantity() > 0
                     ? product.getQuantity() + "개"
@@ -27,9 +27,21 @@ public class OutputView {
         System.out.println("상품명\t\t수량\t금액");
         receipt.getPurchaseHistories().forEach(purchaseHistory -> {
             System.out.println(purchaseHistory.getName() + "\t\t" + purchaseHistory.getCount() + " \t"
-                    + purchaseHistory.getPrice());
+                    + numberFormat(purchaseHistory.getAmount()));
         });
         System.out.println("===========증\t정==============");
-        
+        receipt.getGivenProducts().forEach(givenProduct -> {
+            System.out.println(givenProduct.getName() + "\t\t" + givenProduct.getCount());
+        });
+        System.out.println("==============================");
+        System.out.println(
+                "총구매액\t\t" + receipt.getPurchaseCount() + "\t" + numberFormat(receipt.getTotalPurchaseAmount()));
+        System.out.println("행사할인\t\t\t-" + numberFormat(receipt.getPromotionDiscount()));
+        System.out.println("멤버십할인\t\t\t-" + numberFormat(receipt.getMembershipDiscount()));
+        System.out.println("내실돈\t\t\t " + numberFormat(receipt.getPaymentAmount()));
+    }
+
+    private String numberFormat(int number) {
+        return NumberFormat.getInstance().format(number);
     }
 }

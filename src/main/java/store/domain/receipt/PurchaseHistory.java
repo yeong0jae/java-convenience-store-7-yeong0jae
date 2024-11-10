@@ -11,6 +11,10 @@ public class PurchaseHistory {
         this.price = price;
     }
 
+    public int getAmount() {
+        return count * price;
+    }
+
     public String getName() {
         return name;
     }

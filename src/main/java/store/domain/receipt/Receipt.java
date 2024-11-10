@@ -9,6 +9,22 @@ public class Receipt {
     private int promotionDiscount;
     private int membershipDiscount;
 
+    public int getPaymentAmount() {
+        return getTotalPurchaseAmount() - promotionDiscount - membershipDiscount;
+    }
+
+    public int getTotalPurchaseAmount() {
+        return purchaseHistories.stream()
+                .mapToInt(PurchaseHistory::getAmount)
+                .sum();
+    }
+
+    public int getPurchaseCount() {
+        return purchaseHistories.stream()
+                .mapToInt(PurchaseHistory::getCount)
+                .sum();
+    }
+
     public void addPurchaseHistory(String name, int count, int price) {
         purchaseHistories.add(new PurchaseHistory(name, count, price));
     }
@@ -42,5 +58,9 @@ public class Receipt {
 
     public int getMembershipDiscount() {
         return membershipDiscount;
+    }
+
+    public List<GivenProduct> getGivenProducts() {
+        return givenProducts;
     }
 }
