@@ -12,16 +12,16 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
     public int findCountByName(String name) {
         return orderItems.stream()
                 .filter(orderItem -> orderItem.matchesName(name))
                 .map(OrderItem::getCount)
                 .findFirst()
                 .orElseThrow();
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
     private void validateExists(List<OrderItem> orderItems, Stock stock) {

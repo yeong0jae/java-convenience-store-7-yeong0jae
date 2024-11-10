@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import store.domain.order.Order;
 import store.domain.order.OrderItem;
+import store.domain.payment.Payment;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.PromotionCatalog;
 import store.domain.stock.Product;
@@ -34,7 +35,7 @@ public class ConvenienceStore {
         Order order = retryUntilValid(() -> receiveOrder(stock));
 
         // 결제
-
+        Payment payment = new Payment(order, stock, promotionCatalog);
     }
 
     private Order receiveOrder(Stock stock) {
