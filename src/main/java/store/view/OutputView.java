@@ -16,8 +16,7 @@ public class OutputView {
                     ? product.getQuantity() + "개"
                     : "재고 없음";
             System.out.println(
-                    "- " + product.getName() + " " + formattedPrice + " " + product.getQuantity() + "개 "
-                            + promotionName);
+                    "- " + product.getName() + " " + formattedPrice + " " + quantityText + " " + promotionName);
         });
     }
 }
