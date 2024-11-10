@@ -1,20 +1,15 @@
 package store.domain.receipt;
 
 public class Receipt {
-    private final int totalPurchaseAmount;
-    private final int promotionDiscount;
-    private final int membershipDiscount;
-    private final int finalAmount;
+    private int promotionDiscount;
+    private int membershipDiscount;
 
-    public Receipt(int totalPurchaseAmount, int promotionDiscount, int membershipDiscount, int finalAmount) {
-        this.totalPurchaseAmount = totalPurchaseAmount;
-        this.promotionDiscount = promotionDiscount;
-        this.membershipDiscount = membershipDiscount;
-        this.finalAmount = finalAmount;
+    public void addPromotionDiscount(int amount) {
+        promotionDiscount += amount;
     }
 
-    public int getTotalPurchaseAmount() {
-        return totalPurchaseAmount;
+    public void addMembershipDisCount(int amount) {
+        membershipDiscount += amount;
     }
 
     public int getPromotionDiscount() {
@@ -23,9 +18,5 @@ public class Receipt {
 
     public int getMembershipDiscount() {
         return membershipDiscount;
-    }
-
-    public int getFinalAmount() {
-        return finalAmount;
     }
 }
