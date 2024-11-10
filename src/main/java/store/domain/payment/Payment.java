@@ -16,23 +16,29 @@ public class Payment {
         this.promotionCatalog = promotionCatalog;
     }
 
-    public void applyPromotionDiscount() {
+    public void isPromotionDiscountApplicable() {
         order.findOrderItemNames().forEach(orderItemName -> {
             if (!stock.hasPromotion(orderItemName)) {
-                return;
+                throw new IllegalArgumentException("프로모션 없음");
             }
 
             String promotionName = stock.findPromotionNameByName(orderItemName);
             if (!promotionCatalog.isPromotionActive(promotionName, LocalDate.now())) {
-                return;
+                throw new IllegalArgumentException("프로모션 기간아님");
             }
-            
-            applyDiscount();
+
+            applyDiscount(orderItemName);
         });
     }
 
-    private void applyDiscount() {
-        // 할인 적용 로직 구현
+    private void applyDiscount(String orderItemName) {
+        // 단일 상품에 대한 할인 적용 로직 구현
+
+        // 구매자가 가져온 상품 개수
+        int count = order.findCountByName(orderItemName);
+        // 프로모션 상품의 개수
+        int quantityOfPromotion = stock.findQuantityOfPromotionByName(orderItemName);
+        
     }
 
     public int calculateTotalPurchaseAmount() {

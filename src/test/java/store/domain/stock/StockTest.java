@@ -70,4 +70,12 @@ class StockTest {
 
         assertThat(promotionName).isEqualTo("탄산2+1");
     }
+
+    @DisplayName("주문 상품의 프로모션 상품 개수를 조회한다.")
+    @Test
+    void findQuantityOfPromotionByNameTest() {
+        int quantityOfPromotion = stock.findQuantityOfPromotionByName("콜라");
+
+        assertThat(quantityOfPromotion).isEqualTo(10);
+    }
 }

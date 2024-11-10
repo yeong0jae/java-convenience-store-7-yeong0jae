@@ -53,6 +53,13 @@ public class Stock {
                 .sum();
     }
 
+    public int findQuantityOfPromotionByName(String name) {
+        return findByName(name).stream()
+                .filter(Product::promotionIsNotNull)
+                .findFirst()
+                .get().getQuantity();
+    }
+
     private List<Product> findByName(String name) {
         return products.stream()
                 .filter(product -> product.matchesName(name))
