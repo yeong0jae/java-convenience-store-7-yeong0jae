@@ -23,8 +23,9 @@ public class OrderItem {
         }
     }
 
-    public void addCount(int get) {
+    public int addCount(int get) {
         count += get;
+        return count;
     }
 
     public String getName() {

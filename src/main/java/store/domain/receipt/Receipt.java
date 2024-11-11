@@ -63,4 +63,12 @@ public class Receipt {
     public List<GivenProduct> getGivenProducts() {
         return givenProducts;
     }
+
+    public void updatePurchaseHistoryCount(String name, int count) {
+        purchaseHistories.stream()
+                .filter(purchaseHistory -> purchaseHistory.matchesName(name))
+                .findFirst()
+                .get()
+                .updateCount(count);
+    }
 }

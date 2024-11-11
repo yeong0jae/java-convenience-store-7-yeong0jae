@@ -26,4 +26,12 @@ public class PurchaseHistory {
     public int getPrice() {
         return price;
     }
+
+    public boolean matchesName(String name) {
+        return this.name.equals(name);
+    }
+
+    public void updateCount(int count) {
+        this.count = count;
+    }
 }

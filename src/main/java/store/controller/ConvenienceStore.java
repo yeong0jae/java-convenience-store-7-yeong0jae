@@ -74,11 +74,12 @@ public class ConvenienceStore {
                 int restCount = count % (buy + get);
                 if (restCount == buy) {
                     if (inputView.readAdditionalPromotion(name, get)) {
-                        orderItem.addCount(get);
+                        count = orderItem.addCount(get);
                     }
                 }
-                int givenProductCount = orderItem.getCount() / (buy + get);
+                int givenProductCount = count / (buy + get);
 
+                receipt.updatePurchaseHistoryCount(name, count);
                 receipt.addGivenProduct(name, givenProductCount);
                 receipt.addPromotionDiscount(givenProductCount * price);
                 receipt.addMembershipDiscount(restCount * price);
