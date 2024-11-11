@@ -1,5 +1,6 @@
 package store;
 
+import store.controller.ConvenienceStore;
 import store.domain.stock.Stock;
 import store.file.ProductsInput;
 import store.view.InputView;
