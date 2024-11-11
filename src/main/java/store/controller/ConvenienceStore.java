@@ -4,14 +4,10 @@ import java.util.List;
 import java.util.function.Supplier;
 import store.domain.order.Order;
 import store.domain.order.OrderItem;
-import store.domain.promotion.Promotion;
 import store.domain.promotion.PromotionCatalog;
 import store.domain.promotion.PromotionType;
-import store.domain.promotion.Today;
 import store.domain.receipt.Receipt;
 import store.domain.stock.Stock;
-import store.external.TodayImpl;
-import store.file.PromotionsInput;
 import store.view.InputView;
 import store.view.OutputView;
 
@@ -19,54 +15,74 @@ public class ConvenienceStore {
     private final InputView inputView;
     private final OutputView outputView;
     private Stock stock;
+    private final PromotionCatalog promotionCatalog;
 
-    public ConvenienceStore(InputView inputView, OutputView outputView, Stock stock) {
+    public ConvenienceStore(InputView inputView, OutputView outputView, Stock stock,
+                            PromotionCatalog promotionCatalog) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.stock = stock;
+        this.promotionCatalog = promotionCatalog;
     }
 
     public void open() {
         outputView.printStock(stock.getProducts());
-        PromotionCatalog promotionCatalog = preparePromotion(new TodayImpl());
 
         Order order = retryUntilValid(() -> receiveOrder(stock));
 
-        Receipt receipt = pay(order, promotionCatalog);
+        Receipt receipt = pay(order);
         applyMembershipDiscount(receipt);
         outputView.printReceipt(receipt);
 
         shoppingContinue();
     }
 
-    private Receipt pay(Order order, PromotionCatalog promotionCatalog) {
+    private Receipt pay(Order order) {
         Receipt receipt = new Receipt();
-        order.getOrderItems().forEach(orderItem -> payOne(orderItem, promotionCatalog, receipt));
+
+        order.getOrderItems().forEach(orderItem -> {
+            if (!payWithoutPromotion(orderItem, receipt)) {
+                payWithPromotion(orderItem, receipt);
+            }
+        });
         return receipt;
     }
 
-    private void payOne(OrderItem orderItem, PromotionCatalog promotionCatalog, Receipt receipt) {
+    private boolean payWithoutPromotion(OrderItem orderItem, Receipt receipt) {
+        String name = orderItem.getName();
+        int count = orderItem.getCount();
+        int price = stock.findPriceByName(name);
+
+        // 프로모션이 없으면 멤버십 할인만 적용
+        if (!stock.hasPromotion(name)) {
+            receipt.addPurchaseHistory(name, count, price);
+            receipt.addMembershipDiscount(count * price);
+            stock.decreaseNormalQuantity(name, count);
+            return true;
+        }
+
+        int promotionQuantity = stock.findQuantityOfPromotionByName(name);
+        String promotionName = stock.findPromotionNameByName(name);
+
+        // 프로모션 기간이 아니거나, 프로모션 상품이 0개인 경우 멤버십 할인만 적용
+        if (!promotionCatalog.isPromotionActive(promotionName) || promotionQuantity == 0) {
+            receipt.addPurchaseHistory(name, count, price);
+            receipt.addMembershipDiscount(count * price);
+            stock.decreaseNormalQuantity(name, count);
+            return true;
+        }
+        return false;
+    }
+
+    private void payWithPromotion(OrderItem orderItem, Receipt receipt) {
         String name = orderItem.getName();
         int count = orderItem.getCount();
         int price = stock.findPriceByName(name);
 
         receipt.addPurchaseHistory(name, count, price);
 
-        // 프로모션이 없으면 멤버십 할인만 적용
-        if (!stock.hasPromotion(name)) {
-            receipt.addMembershipDiscount(count * price);
-            stock.decreaseNormalQuantity(name, count);
-            return;
-        }
         int promotionQuantity = stock.findQuantityOfPromotionByName(name);
         String promotionName = stock.findPromotionNameByName(name);
-
-        // 프로모션 기간이 아니거나, 프로모션 상품이 0개인 경우 멤버십 할인만 적용
-        if (!promotionCatalog.isPromotionActive(promotionName) || promotionQuantity == 0) {
-            receipt.addMembershipDiscount(count * price);
-            stock.decreaseNormalQuantity(name, count);
-            return;
-        }
 
         PromotionType promotionType = promotionCatalog.findPromotionTypeByName(promotionName);
         int buy = promotionType.buy;
@@ -123,11 +139,6 @@ public class ConvenienceStore {
                 rawOrderItem -> new OrderItem(rawOrderItem.getFirst(), rawOrderItem.get(1))
         ).toList();
         return new Order(orderItems, stock);
-    }
-
-    private PromotionCatalog preparePromotion(Today today) {
-        List<Promotion> promotions = PromotionsInput.readPromotions();
-        return new PromotionCatalog(promotions, today);
     }
 
     private void shoppingContinue() {
