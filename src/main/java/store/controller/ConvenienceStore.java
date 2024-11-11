@@ -32,14 +32,36 @@ public class ConvenienceStore {
 
         Order order = retryUntilValid(() -> receiveOrder(stock));
 
-        Receipt receipt = pay(order, stock, promotionCatalog);
+        Receipt receipt = payTemp(order, promotionCatalog);
         applyMembership(receipt);
         outputView.printReceipt(receipt);
 
         shoppingContinue();
     }
 
-    private Receipt pay(Order order, Stock stock, PromotionCatalog promotionCatalog) {
+    private Receipt pay(Order order, PromotionCatalog promotionCatalog) {
+        Receipt receipt = new Receipt();
+        order.getOrderItems().forEach(orderItem -> payOne(orderItem, promotionCatalog, receipt));
+        return receipt;
+    }
+
+    private void payOne(OrderItem orderItem, PromotionCatalog promotionCatalog, Receipt receipt) {
+        String name = orderItem.getName();
+        int count = orderItem.getCount();
+        int price = stock.findPriceByName(name);
+
+        receipt.addPurchaseHistory(name, count, price);
+
+        if (stock.hasPromotion(name)) {
+
+        } else {
+            
+            stock.decreaseNormalQuantity(name, count);
+        }
+    }
+
+
+    private Receipt payTemp(Order order, PromotionCatalog promotionCatalog) {
         Receipt receipt = new Receipt();
         order.getOrderItems().forEach(orderItem -> {
             String name = orderItem.getName();
