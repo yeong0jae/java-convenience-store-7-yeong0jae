@@ -12,6 +12,11 @@ public class Receipt {
     private int promotionDiscount;
     private int membershipDiscount;
 
+    public void applyPromotion(String givenProductName, int givenProductCount, int discountAmount) {
+        addGivenProduct(givenProductName, givenProductCount);
+        addPromotionDiscount(discountAmount);
+    }
+
     public int getPaymentAmount() {
         return getTotalPurchaseAmount() - promotionDiscount - membershipDiscount;
     }
@@ -40,7 +45,7 @@ public class Receipt {
         membershipDiscount = 0;
     }
 
-    public void addPromotionDiscount(int amount) {
+    private void addPromotionDiscount(int amount) {
         promotionDiscount += amount;
     }
 
@@ -51,7 +56,7 @@ public class Receipt {
         }
     }
 
-    public void addGivenProduct(String givenProductName, int givenProductCount) {
+    private void addGivenProduct(String givenProductName, int givenProductCount) {
         givenProducts.add(new GivenProduct(givenProductName, givenProductCount));
     }
 

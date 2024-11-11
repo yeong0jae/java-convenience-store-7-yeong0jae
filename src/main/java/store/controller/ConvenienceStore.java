@@ -32,8 +32,8 @@ public class ConvenienceStore {
 
         Order order = retryUntilValid(() -> receiveOrder(stock));
 
-        Receipt receipt = payTemp(order, promotionCatalog);
-        applyMembership(receipt);
+        Receipt receipt = pay(order, promotionCatalog);
+        applyMembershipDiscount(receipt);
         outputView.printReceipt(receipt);
 
         shoppingContinue();
@@ -52,88 +52,67 @@ public class ConvenienceStore {
 
         receipt.addPurchaseHistory(name, count, price);
 
-        if (stock.hasPromotion(name)) {
-
-        } else {
-            
+        // 프로모션이 없으면 멤버십 할인만 적용
+        if (!stock.hasPromotion(name)) {
+            receipt.addMembershipDiscount(count * price);
             stock.decreaseNormalQuantity(name, count);
+            return;
         }
+        int promotionQuantity = stock.findQuantityOfPromotionByName(name);
+        String promotionName = stock.findPromotionNameByName(name);
+
+        // 프로모션 기간이 아니거나, 프로모션 상품이 0개인 경우 멤버십 할인만 적용
+        if (!promotionCatalog.isPromotionActive(promotionName) || promotionQuantity == 0) {
+            receipt.addMembershipDiscount(count * price);
+            stock.decreaseNormalQuantity(name, count);
+            return;
+        }
+
+        PromotionType promotionType = promotionCatalog.findPromotionTypeByName(promotionName);
+        int buy = promotionType.buy;
+        int get = promotionType.get;
+
+        // 모든 상품에 프로모션 적용이 가능한 경우
+        if (count <= promotionQuantity) {
+            int restCount = count % (buy + get);
+            if (restCount == buy) {
+                if (inputView.readAdditionalPromotion(name, get)) {
+                    count = orderItem.addCount(get);
+                }
+            }
+            int givenProductCount = count / (buy + get);
+
+            receipt.updatePurchaseHistoryCount(name, count);
+
+            receipt.applyPromotion(name, givenProductCount, givenProductCount * price);
+            receipt.addMembershipDiscount(restCount * price);
+
+            stock.decreasePromotionQuantity(name, givenProductCount * (buy + get));
+            if (givenProductCount == 0) {
+                stock.decreaseNormalQuantity(name, restCount);
+            }
+            return;
+        }
+
+        // 일부 상품에 프로모션 적용이 가능한 경우
+        int givenProductCount = promotionQuantity / (buy + get);
+        int promotionApplyCount = givenProductCount * (buy + get);
+        int membershipApplyCount = count - promotionApplyCount;
+        if (!inputView.readNoApplicablePromotion(name, membershipApplyCount)) {
+            open();
+        }
+        if (membershipApplyCount > stock.findQuantityOfNormalByName(name)) {
+            stock.decreasePromotionQuantity(name, membershipApplyCount - stock.findQuantityOfNormalByName(name));
+        }
+
+        receipt.applyPromotion(name, givenProductCount, givenProductCount * price);
+        receipt.addMembershipDiscount(membershipApplyCount * price);
+
+        stock.decreasePromotionQuantity(name, promotionApplyCount);
+        stock.decreaseNormalQuantity(name, count - promotionApplyCount);
     }
 
-
-    private Receipt payTemp(Order order, PromotionCatalog promotionCatalog) {
-        Receipt receipt = new Receipt();
-        order.getOrderItems().forEach(orderItem -> {
-            String name = orderItem.getName();
-            int count = orderItem.getCount();
-            int price = stock.findPriceByName(name);
-
-            receipt.addPurchaseHistory(name, count, price);
-
-            // 프로모션이 없으면
-            if (!stock.hasPromotion(name)) {
-                receipt.addMembershipDiscount(count * price);
-                stock.decreaseNormalQuantity(name, count);
-                return;
-            }
-            int promotionQuantity = stock.findQuantityOfPromotionByName(name);
-            String promotionName = stock.findPromotionNameByName(name);
-
-            // 프로모션 기간이 아니거나, 프로모션 상품이 0개인 경우
-            if (!promotionCatalog.isPromotionActive(promotionName) || promotionQuantity == 0) {
-                receipt.addMembershipDiscount(count * price);
-                stock.decreaseNormalQuantity(name, count);
-                return;
-            }
-
-            PromotionType promotionType = promotionCatalog.findPromotionTypeByName(promotionName);
-            int buy = promotionType.buy;
-            int get = promotionType.get;
-
-            // 모든 상품에 프로모션 적용이 가능하면
-            if (count <= promotionQuantity) {
-                int restCount = count % (buy + get);
-                if (restCount == buy) {
-                    if (inputView.readAdditionalPromotion(name, get)) {
-                        count = orderItem.addCount(get);
-                    }
-                }
-                int givenProductCount = count / (buy + get);
-
-                receipt.updatePurchaseHistoryCount(name, count);
-                receipt.addGivenProduct(name, givenProductCount);
-                receipt.addPromotionDiscount(givenProductCount * price);
-                receipt.addMembershipDiscount(restCount * price);
-
-                stock.decreasePromotionQuantity(name, givenProductCount * (buy + get));
-                if (givenProductCount == 0) {
-                    stock.decreaseNormalQuantity(name, restCount);
-                }
-                return;
-            }
-
-            // 일부 상품에 프로모션 적용이 가능하면
-            int givenProductCount = promotionQuantity / (buy + get);
-            int promotionApplyCount = givenProductCount * (buy + get);
-            int membershipApplyCount = count - promotionApplyCount;
-            if (!inputView.readNoApplicablePromotion(name, membershipApplyCount)) {
-                open();
-            }
-            if (membershipApplyCount > stock.findQuantityOfNormalByName(name)) {
-                stock.decreasePromotionQuantity(name, membershipApplyCount - stock.findQuantityOfNormalByName(name));
-            }
-
-            receipt.addGivenProduct(name, givenProductCount);
-            receipt.addPromotionDiscount(givenProductCount * price);
-            receipt.addMembershipDiscount(membershipApplyCount * price);
-
-            stock.decreasePromotionQuantity(name, promotionApplyCount);
-            stock.decreaseNormalQuantity(name, count - promotionApplyCount);
-        });
-        return receipt;
-    }
-
-    private void applyMembership(Receipt receipt) {
+    private void applyMembershipDiscount(Receipt receipt) {
         if (!inputView.readMembershipDiscountAgree()) {
             receipt.disagreeMembershipDiscount();
         }
