@@ -1,6 +1,5 @@
 package store.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Supplier;
 import store.domain.order.Order;
@@ -8,6 +7,7 @@ import store.domain.order.OrderItem;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.PromotionCatalog;
 import store.domain.promotion.PromotionType;
+import store.domain.promotion.Today;
 import store.domain.receipt.Receipt;
 import store.domain.stock.Stock;
 import store.file.PromotionsInput;
@@ -18,11 +18,13 @@ public class ConvenienceStore {
     private final InputView inputView;
     private final OutputView outputView;
     private Stock stock;
+    private Today today;
 
-    public ConvenienceStore(InputView inputView, OutputView outputView, Stock stock) {
+    public ConvenienceStore(InputView inputView, OutputView outputView, Stock stock, Today today) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.stock = stock;
+        this.today = today;
     }
 
     public void open() {
@@ -57,7 +59,7 @@ public class ConvenienceStore {
             String promotionName = stock.findPromotionNameByName(name);
 
             // 프로모션 기간이 아니거나, 프로모션 상품이 0개인 경우
-            if (!promotionCatalog.isPromotionActive(promotionName, LocalDate.now()) || promotionQuantity == 0) {
+            if (!promotionCatalog.isPromotionActive(promotionName) || promotionQuantity == 0) {
                 receipt.addMembershipDiscount(count * price);
                 stock.decreaseNormalQuantity(name, count);
                 return;
@@ -120,7 +122,7 @@ public class ConvenienceStore {
 
     private PromotionCatalog preparePromotion() {
         List<Promotion> promotions = PromotionsInput.readPromotions();
-        return new PromotionCatalog(promotions);
+        return new PromotionCatalog(promotions, today);
     }
 
     private void shoppingContinue() {

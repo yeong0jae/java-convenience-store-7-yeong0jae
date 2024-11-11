@@ -45,5 +45,4 @@ public class Product {
     public String getPromotionName() {
         return promotionName;
     }
-
 }

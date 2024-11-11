@@ -16,7 +16,7 @@ public class Promotion {
     }
 
     protected boolean isPromotionActive(LocalDate currentDate) {
-        return !currentDate.isBefore(startDate) && !currentDate.isAfter(endDate);
+        return startDate.isBefore(currentDate) && endDate.isAfter(currentDate);
     }
 
     public String getName() {
