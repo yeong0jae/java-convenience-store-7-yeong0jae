@@ -1,5 +1,7 @@
 package store.domain.stock;
 
+import store.util.ErrorMessage;
+
 public class Product {
     private final String name;
     private final int price;
@@ -13,8 +15,10 @@ public class Product {
         this.promotionName = promotionName;
     }
 
-    public String getName() {
-        return name;
+    public void decreaseQuantity(int count) {
+        if (quantity < count) {
+            throw new IllegalArgumentException(ErrorMessage.PREFIX + "차감할 재고가 없습니다.");
+        }
     }
 
     public boolean promotionIsNotNull() {
@@ -23,6 +27,10 @@ public class Product {
 
     public boolean matchesName(String name) {
         return this.name.equals(name);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getQuantity() {
@@ -37,7 +45,4 @@ public class Product {
         return promotionName;
     }
 
-    public void decreaseQuantity(int count) {
-        quantity -= count;
-    }
 }
