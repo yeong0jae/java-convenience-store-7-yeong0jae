@@ -15,5 +15,4 @@ public class Payment {
         this.promotionCatalog = promotionCatalog;
     }
 
-    
 }

@@ -28,6 +28,14 @@ class ProductTest {
         assertThat(isSameName).isTrue();
     }
 
+    @DisplayName("재고 차감 성공")
+    @Test
+    void decreaseQuantitySuccessTest() {
+        product.decreaseQuantity(5);
+
+        assertThat(product.getQuantity()).isEqualTo(5);
+    }
+
     @DisplayName("재고 차감 실패: 차감할 재고가 없는 경우")
     @Test
     void decreaseQuantityTest() {

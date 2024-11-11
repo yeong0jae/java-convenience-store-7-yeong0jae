@@ -31,7 +31,7 @@ public class ConvenienceStore {
 
         Order order = retryUntilValid(() -> receiveOrder(stock));
 
-        Receipt receipt = retryUntilValid(() -> pay(order, stock, promotionCatalog));
+        Receipt receipt = pay(order, stock, promotionCatalog);
         applyMembership(receipt);
         outputView.printReceipt(receipt);
 

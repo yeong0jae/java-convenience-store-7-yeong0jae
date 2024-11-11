@@ -19,6 +19,7 @@ public class Product {
         if (quantity < count) {
             throw new IllegalArgumentException(ErrorMessage.PREFIX + "차감할 재고가 없습니다.");
         }
+        quantity -= count;
     }
 
     public boolean promotionIsNotNull() {
