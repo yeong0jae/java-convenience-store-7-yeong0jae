@@ -7,54 +7,57 @@ import store.domain.stock.Product;
 
 public class OutputView {
     public void printStock(List<Product> products) {
-        System.out.println("안녕하세요. W편의점입니다.");
-        System.out.println("현재 보유하고 있는 상품입니다.\n");
-
+        print("안녕하세요. W편의점입니다.");
+        print("현재 보유하고 있는 상품입니다.\n");
         products.forEach(product -> {
             String formattedPrice = numberFormat(product.getPrice()) + "원";
             String promotionName = product.getPromotionName() != null ? product.getPromotionName() : "";
             String quantityText = product.getQuantity() > 0
                     ? product.getQuantity() + "개"
                     : "재고 없음";
-            System.out.println(
-                    "- " + product.getName() + " " + formattedPrice + " " + quantityText + " " + promotionName);
+            print("- " + product.getName() + " " + formattedPrice + " " + quantityText + " " + promotionName);
         });
-        System.out.println();
+        printEnter();
     }
 
     public void printReceipt(Receipt receipt) {
-        System.out.println("===========W 편의점=============");
+        print("===========W 편의점=============");
         printPurchaseHistories(receipt);
         printGivenProducts(receipt);
         printDiscounts(receipt);
     }
 
     private void printPurchaseHistories(Receipt receipt) {
-        System.out.println("상품명\t\t수량\t금액");
+        print("상품명\t\t수량\t금액");
         receipt.getPurchaseHistories().forEach(purchaseHistory ->
-                System.out.println(purchaseHistory.getName() + "\t\t" + purchaseHistory.getCount() + " \t"
+                print(purchaseHistory.getName() + "\t\t" + purchaseHistory.getCount() + " \t"
                         + numberFormat(purchaseHistory.getAmount()))
         );
     }
 
     private void printGivenProducts(Receipt receipt) {
-        System.out.println("===========증\t정==============");
-        receipt.getGivenProducts().forEach(givenProduct ->
-                System.out.println(givenProduct.getName() + "\t\t" + givenProduct.getCount())
-        );
-        System.out.println("==============================");
+        print("===========증\t정==============");
+        receipt.getGivenProducts().forEach(
+                givenProduct -> print(givenProduct.getName() + "\t\t" + givenProduct.getCount()));
+        print("==============================");
     }
 
     private void printDiscounts(Receipt receipt) {
-        System.out.println(
-                "총구매액\t\t" + receipt.getPurchaseCount() + "\t" + numberFormat(receipt.getTotalPurchaseAmount()));
-        System.out.println("행사할인\t\t\t-" + numberFormat(receipt.getPromotionDiscount()));
-        System.out.println("멤버십할인\t\t\t-" + numberFormat(receipt.getMembershipDiscount()));
-        System.out.println("내실돈\t\t\t " + numberFormat(receipt.getPaymentAmount()));
+        print("총구매액\t\t" + receipt.getPurchaseCount() + "\t" + numberFormat(receipt.getTotalPurchaseAmount()));
+        print("행사할인\t\t\t-" + numberFormat(receipt.getPromotionDiscount()));
+        print("멤버십할인\t\t\t-" + numberFormat(receipt.getMembershipDiscount()));
+        print("내실돈\t\t\t " + numberFormat(receipt.getPaymentAmount()));
     }
-
 
     private String numberFormat(int number) {
         return NumberFormat.getInstance().format(number);
+    }
+
+    private void print(String output) {
+        System.out.println(output);
+    }
+
+    private void printEnter() {
+        System.out.println();
     }
 }
