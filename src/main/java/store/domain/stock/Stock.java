@@ -52,7 +52,7 @@ public class Stock {
                 .mapToInt(Product::getQuantity)
                 .sum();
     }
-    
+
     public int findQuantityOfNormalByName(String name) {
         return findByName(name).stream()
                 .filter(product -> !product.promotionIsNotNull())
@@ -79,7 +79,7 @@ public class Stock {
                 .forEach(product -> product.decreaseQuantity(count));
     }
 
-    public void decreaseQuantity(String name, int count) {
+    public void decreaseNormalQuantity(String name, int count) {
         findByName(name).stream()
                 .filter(product -> !product.promotionIsNotNull())
                 .forEach(product -> product.decreaseQuantity(count));
