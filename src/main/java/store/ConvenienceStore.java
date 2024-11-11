@@ -27,15 +27,12 @@ public class ConvenienceStore {
 
     public void open() {
         outputView.printStock(stock.getProducts());
-
         PromotionCatalog promotionCatalog = preparePromotion();
 
         Order order = retryUntilValid(() -> receiveOrder(stock));
 
-        Receipt receipt = pay(order, stock, promotionCatalog);
-
+        Receipt receipt = retryUntilValid(() -> pay(order, stock, promotionCatalog));
         applyMembership(receipt);
-
         outputView.printReceipt(receipt);
 
         shoppingContinue();
@@ -43,7 +40,6 @@ public class ConvenienceStore {
 
     private Receipt pay(Order order, Stock stock, PromotionCatalog promotionCatalog) {
         Receipt receipt = new Receipt();
-
         order.getOrderItems().forEach(orderItem -> {
             String name = orderItem.getName();
             int count = orderItem.getCount();
@@ -54,7 +50,7 @@ public class ConvenienceStore {
             // 프로모션이 없으면
             if (!stock.hasPromotion(name)) {
                 receipt.addMembershipDiscount(count * price);
-                stock.decreaseQuantity(name, count);
+                stock.decreaseNormalQuantity(name, count);
                 return;
             }
             int promotionQuantity = stock.findQuantityOfPromotionByName(name);
@@ -63,7 +59,7 @@ public class ConvenienceStore {
             // 프로모션 기간이 아니거나, 프로모션 상품이 0개인 경우
             if (!promotionCatalog.isPromotionActive(promotionName, LocalDate.now()) || promotionQuantity == 0) {
                 receipt.addMembershipDiscount(count * price);
-                stock.decreaseQuantity(name, count);
+                stock.decreaseNormalQuantity(name, count);
                 return;
             }
 
@@ -85,8 +81,7 @@ public class ConvenienceStore {
                 receipt.addPromotionDiscount(givenProductCount * price);
                 receipt.addMembershipDiscount(restCount * price);
                 stock.decreasePromotionQuantity(name, givenProductCount * (buy + get));
-                stock.decreaseQuantity(name, restCount);
-
+                stock.decreaseNormalQuantity(name, restCount);
                 return;
             }
 
@@ -97,15 +92,16 @@ public class ConvenienceStore {
             if (!inputView.readNoApplicablePromotion(name, membershipApplyCount)) {
                 open();
             }
+            if (membershipApplyCount > stock.findQuantityOfNormalByName(name)) {
+                stock.decreasePromotionQuantity(name, membershipApplyCount - stock.findQuantityOfNormalByName(name));
+            }
 
             receipt.addGivenProduct(name, givenProductCount);
             receipt.addPromotionDiscount(givenProductCount * price);
             receipt.addMembershipDiscount(membershipApplyCount * price);
             stock.decreasePromotionQuantity(name, promotionApplyCount);
-            stock.decreaseQuantity(name, count);
-
+            stock.decreaseNormalQuantity(name, count);
         });
-
         return receipt;
     }
 
