@@ -4,7 +4,7 @@ public class Product {
     private final String name;
     private final int price;
     private int quantity;
-    private String promotionName;
+    private final String promotionName;
 
     public Product(String name, int price, int quantity, String promotionName) {
         this.name = name;
@@ -15,9 +15,6 @@ public class Product {
 
     public void decreaseQuantity(int count) {
         quantity -= count;
-        if (quantity < count) {
-            quantity = 0;
-        }
     }
 
     public boolean promotionIsNotNull() {
