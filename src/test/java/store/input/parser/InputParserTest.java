@@ -22,6 +22,13 @@ class InputParserTest {
     void validateBracketsTest(String rawOrderItem) {
         assertThatIllegalArgumentException().isThrownBy(() -> inputParser.parseOrderItem(rawOrderItem));
     }
-    
 
+    @DisplayName("주문 입력 실패: 구분자 검증")
+    @ParameterizedTest
+    @ValueSource(strings = {"[콜라,1]", "[콜라:1]", "[콜라/1]", "[콜라 1]"})
+    void validatePartsSizeTest(String rawOrderItem) {
+        assertThatIllegalArgumentException().isThrownBy(() -> inputParser.parseOrderItem(rawOrderItem));
+    }
+
+    
 }
