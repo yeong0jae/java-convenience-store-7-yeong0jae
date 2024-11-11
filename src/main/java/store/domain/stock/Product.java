@@ -14,10 +14,10 @@ public class Product {
     }
 
     public void decreaseQuantity(int count) {
-        /*if (quantity < count) {
-            throw new IllegalArgumentException(ErrorMessage.PREFIX + "차감할 재고가 없습니다.");
-        }*/
         quantity -= count;
+        if (quantity < count) {
+            quantity = 0;
+        }
     }
 
     public boolean promotionIsNotNull() {
