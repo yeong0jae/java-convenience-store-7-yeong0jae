@@ -36,5 +36,11 @@ class InputParserTest {
     void validateProductNameTest(String rawOrderItem) {
         assertThatIllegalArgumentException().isThrownBy(() -> inputParser.parseOrderItem(rawOrderItem));
     }
-    
+
+    @DisplayName("주문 입력 실패: 수량 검증")
+    @ParameterizedTest
+    @ValueSource(strings = {"[콜라-]", "[콜라-1.0]"})
+    void validateQuantityTest(String rawOrderItem) {
+        assertThatIllegalArgumentException().isThrownBy(() -> inputParser.parseOrderItem(rawOrderItem));
+    }
 }

@@ -31,7 +31,7 @@ public class InputParser {
     }
 
     private void validateProductName(List<String> parts) {
-        if (parts.get(0).isEmpty()) {
+        if (parts.get(0).isBlank()) {
             throw new IllegalArgumentException("[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
         }
     }
@@ -41,7 +41,7 @@ public class InputParser {
             throw new IllegalArgumentException("[ERROR] 올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
         }
     }
-    
+
     private boolean isNumeric(String str) {
         return str.chars().allMatch(Character::isDigit);
     }
