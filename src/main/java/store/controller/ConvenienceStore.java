@@ -107,7 +107,7 @@ public class ConvenienceStore {
             receipt.addMembershipDiscount(membershipApplyCount * price);
 
             stock.decreasePromotionQuantity(name, promotionApplyCount);
-            stock.decreaseNormalQuantity(name, count);
+            stock.decreaseNormalQuantity(name, count - promotionApplyCount);
         });
         return receipt;
     }
