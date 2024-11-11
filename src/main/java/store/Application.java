@@ -13,11 +13,11 @@ public class Application {
     public static void main(String[] args) {
         InputParser inputParser = new InputParser();
         InputView inputView = new InputView(inputParser);
-
         OutputView outputView = new OutputView();
-        Stock stock = new Stock(ProductsInput.readProducts());
 
         Today today = new TodayImpl();
+
+        Stock stock = new Stock(ProductsInput.readProducts());
 
         ConvenienceStore convenienceStore = new ConvenienceStore(inputView, outputView, stock, today);
         convenienceStore.open();

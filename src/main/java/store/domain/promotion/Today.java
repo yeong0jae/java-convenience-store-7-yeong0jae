@@ -1,7 +1,7 @@
 package store.domain.promotion;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface Today {
-    LocalDate getToday();
+    LocalDateTime getToday();
 }

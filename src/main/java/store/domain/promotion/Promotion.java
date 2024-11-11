@@ -1,6 +1,7 @@
 package store.domain.promotion;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Promotion {
     private final String name;
@@ -15,8 +16,8 @@ public class Promotion {
         this.endDate = endDate;
     }
 
-    protected boolean isPromotionActive(LocalDate currentDate) {
-        return startDate.isBefore(currentDate) && endDate.isAfter(currentDate);
+    protected boolean isPromotionActive(LocalDateTime now) {
+        return startDate.isBefore(now.toLocalDate()) && endDate.isAfter(now.toLocalDate());
     }
 
     public String getName() {
