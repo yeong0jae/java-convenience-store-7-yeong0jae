@@ -1,9 +1,7 @@
 package store;
 
 import store.controller.ConvenienceStore;
-import store.domain.promotion.Today;
 import store.domain.stock.Stock;
-import store.external.TodayImpl;
 import store.file.ProductsInput;
 import store.view.InputView;
 import store.view.OutputView;
@@ -15,11 +13,9 @@ public class Application {
         InputView inputView = new InputView(inputParser);
         OutputView outputView = new OutputView();
 
-        Today today = new TodayImpl();
-
         Stock stock = new Stock(ProductsInput.readProducts());
 
-        ConvenienceStore convenienceStore = new ConvenienceStore(inputView, outputView, stock, today);
+        ConvenienceStore convenienceStore = new ConvenienceStore(inputView, outputView, stock);
         convenienceStore.open();
     }
 }

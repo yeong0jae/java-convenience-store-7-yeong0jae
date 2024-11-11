@@ -10,6 +10,7 @@ import store.domain.promotion.PromotionType;
 import store.domain.promotion.Today;
 import store.domain.receipt.Receipt;
 import store.domain.stock.Stock;
+import store.external.TodayImpl;
 import store.file.PromotionsInput;
 import store.view.InputView;
 import store.view.OutputView;
@@ -18,18 +19,16 @@ public class ConvenienceStore {
     private final InputView inputView;
     private final OutputView outputView;
     private Stock stock;
-    private Today today;
 
-    public ConvenienceStore(InputView inputView, OutputView outputView, Stock stock, Today today) {
+    public ConvenienceStore(InputView inputView, OutputView outputView, Stock stock) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.stock = stock;
-        this.today = today;
     }
 
     public void open() {
         outputView.printStock(stock.getProducts());
-        PromotionCatalog promotionCatalog = preparePromotion();
+        PromotionCatalog promotionCatalog = preparePromotion(new TodayImpl());
 
         Order order = retryUntilValid(() -> receiveOrder(stock));
 
@@ -125,7 +124,7 @@ public class ConvenienceStore {
         return new Order(orderItems, stock);
     }
 
-    private PromotionCatalog preparePromotion() {
+    private PromotionCatalog preparePromotion(Today today) {
         List<Promotion> promotions = PromotionsInput.readPromotions();
         return new PromotionCatalog(promotions, today);
     }
