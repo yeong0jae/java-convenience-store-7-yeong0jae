@@ -1,7 +1,5 @@
 package store.domain.stock;
 
-import store.util.ErrorMessage;
-
 public class Product {
     private final String name;
     private final int price;
@@ -16,9 +14,9 @@ public class Product {
     }
 
     public void decreaseQuantity(int count) {
-        if (quantity < count) {
+        /*if (quantity < count) {
             throw new IllegalArgumentException(ErrorMessage.PREFIX + "차감할 재고가 없습니다.");
-        }
+        }*/
         quantity -= count;
     }
 

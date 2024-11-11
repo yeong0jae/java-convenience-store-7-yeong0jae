@@ -83,8 +83,11 @@ public class ConvenienceStore {
                 receipt.addGivenProduct(name, givenProductCount);
                 receipt.addPromotionDiscount(givenProductCount * price);
                 receipt.addMembershipDiscount(restCount * price);
+
                 stock.decreasePromotionQuantity(name, givenProductCount * (buy + get));
-                stock.decreaseNormalQuantity(name, restCount);
+                if (givenProductCount == 0) {
+                    stock.decreaseNormalQuantity(name, restCount);
+                }
                 return;
             }
 
@@ -102,6 +105,7 @@ public class ConvenienceStore {
             receipt.addGivenProduct(name, givenProductCount);
             receipt.addPromotionDiscount(givenProductCount * price);
             receipt.addMembershipDiscount(membershipApplyCount * price);
+
             stock.decreasePromotionQuantity(name, promotionApplyCount);
             stock.decreaseNormalQuantity(name, count);
         });
