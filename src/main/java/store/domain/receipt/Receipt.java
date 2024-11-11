@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Receipt {
+    private static final int MEMBERSHIP_DISCOUNT_MAX = 8000;
+    private static final double MEMBERSHIP_DISCOUNT_PERCENT = 0.3;
+
     private List<PurchaseHistory> purchaseHistories = new ArrayList<>();
     private List<GivenProduct> givenProducts = new ArrayList<>();
     private int promotionDiscount;
@@ -42,9 +45,9 @@ public class Receipt {
     }
 
     public void addMembershipDiscount(int amount) {
-        membershipDiscount += (int) (amount * 0.3);
-        if (membershipDiscount >= 8000) {
-            membershipDiscount = 8000;
+        membershipDiscount += (int) (amount * MEMBERSHIP_DISCOUNT_PERCENT);
+        if (membershipDiscount >= MEMBERSHIP_DISCOUNT_MAX) {
+            membershipDiscount = MEMBERSHIP_DISCOUNT_MAX;
         }
     }
 
