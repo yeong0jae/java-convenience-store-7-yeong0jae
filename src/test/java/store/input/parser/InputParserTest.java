@@ -30,5 +30,11 @@ class InputParserTest {
         assertThatIllegalArgumentException().isThrownBy(() -> inputParser.parseOrderItem(rawOrderItem));
     }
 
+    @DisplayName("주문 입력 실패: 상품명 검증")
+    @ParameterizedTest
+    @ValueSource(strings = {"[-1]", "[ -1]"})
+    void validateProductNameTest(String rawOrderItem) {
+        assertThatIllegalArgumentException().isThrownBy(() -> inputParser.parseOrderItem(rawOrderItem));
+    }
     
 }
